@@ -1,0 +1,43 @@
+/* ========== About ========== */
+
+.about {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #fff0f0 0%, #ffe9ee 100%);
+  border-top: 2px solid #b18597;
+  border-bottom: 2px solid #b18597;
+  padding: clamp(4rem, 6vw, 7rem) 0;
+}
+
+.about-inner {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3rem);
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .about-inner {
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+}
+
+
+
+/* NEW: bigger cap for section title; fluid body copy; comfortable measure */
+.about h2 {
+  font-size: clamp(2.25rem, 5.5vw, 3.5rem);
+  margin-bottom: 1rem;
+  color: #8d7b8d;
+}
+
+.about p {
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  color: #9a879a;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  max-width: 65ch;
+}
+
+.about .main-btn {
+  margin-top: 1rem;
+}

@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calendar Reservation Modal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ================= Your Base Theme ================= */
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: clamp(16px, 0.9vw + 12px, 20px);
+    }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #fdf6f8;
+      color: #8d7b8d;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    :where(a, button, input, .brand, .eyebrow):focus-visible {
+      outline: 3px dashed #b18597;
+      outline-offset: 3px;
+    }
+
+    .container {
+      max-width: min(90rem, 100% - 4rem);
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    button {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      outline: none;
+      border: 0;
+      vertical-align: middle;
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 15px;
+    }
+
+    button.learn-more {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      outline: none;
+      border: 2px solid #b18597;
+      border-radius: 0.75em;
+      vertical-align: middle;
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      color: #a192a1;
+      text-transform: uppercase;
+      padding: 1.1em 1.8em;
+      background: #fff0f0;
+      overflow: visible;
+      transform-style: preserve-3d;
+      transition: background 150ms cubic-bezier(0, 0, 0.58, 1), transform 150ms cubic-bezier(0, 0, 0.58, 1);
+    }
+
+    button.learn-more::before {
+      position: absolute;
+      content: '';
+      inset: 0;
+      background: #f9c4d2;
+      border-radius: inherit;
+      box-shadow: 0 0 0 2px #b18597, 0 0.625em 0 0 #ffe3e200;
+      transform: translate3d(0, 0.75em, -1em);
+      transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+      pointer-events: none;
+    }
+
+    button.learn-more:active {
+      background: #ffe9e9;
+      transform: translate(0em, 0.75em);
+    }
+
+    button.learn-more:active::before {
+      box-shadow: 0 0 0 2px #b18597, 0 0 #ffe3e2;
+      transform: translate3d(0, 0, -1em);
+    }
+
+    /* ================= Demo Header ================= */
+    .demo-hero {
+      padding: clamp(3rem, 6vw, 6rem) 0;
+      border-bottom: 2px solid #b18597;
+      background: radial-gradient(1200px 600px at 10% 10%, #ffe3e8 0%, #fff0f0 40%, #fdf6f8 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sparkle {
+      position: absolute;
+      inset: auto auto -40px -40px;
+      width: clamp(180px, 18vw, 280px);
+      height: clamp(180px, 18vw, 280px);
+      background: #f9c4d2;
+      filter: blur(30px);
+      opacity: .6;
+      border-radius: 50%;
+    }
+
+    .blob {
+      position: absolute;
+      inset: -60px -80px auto auto;
+      width: clamp(260px, 28vw, 520px);
+      height: clamp(260px, 28vw, 520px);
+      background: #ffe3e8;
+      border: 2px solid #b18597;
+      border-radius: 45% 55% 60% 40% / 40% 45% 55% 60%;
+      transform: rotate(8deg);
+      box-shadow: 0 0.6em 0 0 #ffe3e2;
+      opacity: .5;
+    }
+
+    .headline {
+      margin: 0.5rem 0 .5rem;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+      color: #8d7b8d;
+      letter-spacing: .3px;
+    }
+
+    .subhead {
+      margin: 0 0 1.5rem;
+      font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+      line-height: 1.6;
+      color: #9a879a;
+      max-width: 65ch;
+    }
+
+    /* ================= Modal Styles ================= */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: rgba(141, 123, 141, 0.25);
+      padding: 1.25rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease-out;
+      z-index: 1000;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal {
+      width: min(720px, 100%);
+      background: #fff0f0;
+      border: 2px solid #b18597;
+      border-radius: 1rem;
+      box-shadow: 0 1.2em 2.2em rgba(177, 133, 151, .22);
+      transform: translateY(10px) scale(.98);
+      transition: transform 220ms cubic-bezier(.2, .8, .2, 1);
+      overflow: hidden;
+    }
+
+    .modal-overlay.open .modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+      padding: 1rem 1.25rem;
+      border-bottom: 2px dashed #b18597;
+      background: #ffe9ee;
+    }
+
+    .modal-title {
+      font-weight: 700;
+      color: #8d7b8d;
+      font-size: 1.1rem;
+    }
+
+    .icon-btn {
+      display: inline-grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: .75rem;
+      background: #fff0f0;
+      border: 2px solid #b18597;
+      box-shadow: 0 .45em 0 0 #ffe3e2;
+    }
+
+    .icon-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: #a192a1;
+    }
+
+    .modal-body {
+      padding: 1rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 860px) {
+      .grid {
+        grid-template-columns: 1.2fr .8fr;
+      }
+    }
+
+    /* Calendar card */
+    .card {
+      background: #fff0f0;
+      border: 2px solid #b18597;
+      border-radius: 1em;
+      padding: 1rem;
+      box-shadow: 0 0.5em 1em rgba(177, 133, 151, 0.2);
+    }
+
+    .cal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .5rem;
+      margin-bottom: .75rem;
+    }
+
+    .cal-month {
+      font-weight: 700;
+      color: #8d7b8d;
+    }
+
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: .35rem;
+    }
+
+    .cal-cell {
+      text-align: center;
+      padding: .55rem .25rem;
+      border-radius: .6rem;
+      border: 2px solid transparent;
+      user-select: none;
+    }
+
+    .cal-cell.is-header {
+      font-size: .8rem;
+      color: #a192a1;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .cal-cell.is-day {
+      background: #fff0f0;
+      border: 2px solid #b18597;
+      box-shadow: 0 .35em 0 0 #ffe3e2;
+      cursor: pointer;
+    }
+
+    .cal-cell.is-day:hover {
+      background: #ffe9e9;
+    }
+
+    .cal-cell.is-muted {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+
+    .cal-cell.is-selected {
+      background: #f9c4d2;
+      color: #704f5d;
+    }
+
+    /* Right column (time/party/details) */
+    .field {
+      display: grid;
+      gap: .35rem;
+    }
+
+    .label {
+      font-size: .9rem;
+      font-weight: 700;
+      color: #8d7b8d;
+    }
+
+    .input,
+    select,
+    textarea {
+      appearance: none;
+      width: 100%;
+      background: #fff0f0;
+      color: #8d7b8d;
+      border: 2px solid #b18597;
+      border-radius: .75rem;
+      padding: .9rem 1rem;
+      font: inherit;
+      box-shadow: 0 .45em 0 0 #ffe3e2;
+    }
+
+    .row {
+      display: grid;
+      gap: .75rem;
+    }
+
+    @media (min-width:560px) {
+      .row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .slot-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: .5rem;
+    }
+
+    .slot {
+      text-align: center;
+      padding: .65rem .5rem;
+      border-radius: .7rem;
+      border: 2px solid #b18597;
+      background: #fff0f0;
+      box-shadow: 0 .45em 0 0 #ffe3e2;
+      cursor: pointer;
+      font-weight: 600;
+      color: #a192a1;
+    }
+
+    .slot[aria-pressed="true"] {
+      background: #f9c4d2;
+      color: #704f5d;
+    }
+
+    .slot.is-disabled {
+      opacity: .4;
+      pointer-events: none;
+    }
+
+    .modal-foot {
+      padding: 1rem 1.25rem;
+      border-top: 2px dashed #b18597;
+      display: flex;
+      gap: .75rem;
+      justify-content: flex-end;
+      background: #fff0f0;
+    }
+
+    .btn-secondary {
+      border: 2px solid #b18597;
+      border-radius: .75rem;
+      background: #fff0f0;
+      padding: .9rem 1.1rem;
+      font-weight: 600;
+      color: #a192a1;
+    }
+
+    .btn-primary {
+      composes: learn-more;
+    }
+
+    /* Tiny toast */
+    .toast {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      background: #fff0f0;
+      color: #8d7b8d;
+      border: 2px solid #b18597;
+      border-radius: .9rem;
+      padding: .9rem 1rem;
+      box-shadow: 0 .8em 1.5em rgba(177, 133, 151, .18);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: .25s ease;
+      z-index: 1100;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+  <section class="demo-hero">
+    <div class="container">
+      <h1 class="headline">Sweet & Soft Reservation Modal</h1>
+      <p class="subhead">A fully accessible, vanilla JS booking dialog that matches your pastel UI—calendar picker, time
+        slots, party size, and contact details included.</p>
+      <button class="learn-more" id="openModalBtn">Reserve a table</button>
+    </div>
+    <span class="sparkle" aria-hidden="true"></span>
+    <span class="blob" aria-hidden="true"></span>
+  </section>
+
+  <!-- ============ Modal ============ -->
+  <div class="modal-overlay" id="reservationOverlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="reservationTitle"
+      aria-describedby="reservationDesc">
+      <header class="modal-head">
+        <h2 class="modal-title" id="reservationTitle">Make a reservation</h2>
+        <button class="icon-btn" id="closeModalBtn" aria-label="Close reservation dialog">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M18.3 5.71a1 1 0 0 0-1.41 0L12 10.59 7.11 5.7A1 1 0 0 0 5.7 7.11L10.59 12l-4.9 4.89a1 1 0 1 0 1.41 1.41L12 13.41l4.89 4.9a1 1 0 0 0 1.41-1.42L13.41 12l4.89-4.89a1 1 0 0 0 0-1.4Z" />
+          </svg>
+        </button>
+      </header>
+
+      <div class="modal-body grid" id="reservationDesc">
+        <!-- Calendar -->
+        <section class="card" aria-label="Choose a date">
+          <div class="cal-head">
+            <button class="icon-btn" id="prevMonthBtn" aria-label="Previous month">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z" />
+              </svg>
+            </button>
+            <div class="cal-month" id="monthLabel">Month YYYY</div>
+            <button class="icon-btn" id="nextMonthBtn" aria-label="Next month">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z" />
+              </svg>
+            </button>
+          </div>
+          <div class="cal-grid" id="weekdayRow" aria-hidden="true"></div>
+          <div class="cal-grid" id="calendarGrid" role="grid" aria-labelledby="monthLabel"></div>
+        </section>
+
+        <!-- Details -->
+        <section class="card" aria-label="Choose time and details">
+          <div class="field">
+            <label class="label" for="partySize">Party size</label>
+            <select id="partySize" aria-label="Party size">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+            </select>
+          </div>
+
+          <div class="field" style="margin-top:.75rem">
+            <span class="label">Time</span>
+            <div class="slot-list" id="slotList" role="listbox" aria-label="Available times"></div>
+          </div>
+
+          <div class="row" style="margin-top:.75rem">
+            <div class="field">
+              <label class="label" for="name">Name</label>
+              <input class="input" id="name" placeholder="Your full name" autocomplete="name" />
+            </div>
+            <div class="field">
+              <label class="label" for="email">Email</label>
+              <input class="input" id="email" type="email" placeholder="you@example.com" autocomplete="email" />
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:.75rem">
+            <label class="label" for="notes">Notes (optional)</label>
+            <textarea id="notes" rows="3" placeholder="Allergies, celebrations, seating preference…"></textarea>
+          </div>
+        </section>
+      </div>
+
+      <footer class="modal-foot">
+        <button class="btn-secondary" id="cancelBtn">Cancel</button>
+        <button class="learn-more" id="confirmBtn">Confirm reservation</button>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // ====== Utilities ======
+    const $ = (sel, el = document) => el.querySelector(sel);
+    const $$ = (sel, el = document) => Array.from(el.querySelectorAll(sel));
+
+    // ====== Modal open/close + focus trap ======
+    const openBtn = $('#openModalBtn');
+    const overlay = $('#reservationOverlay');
+    const closeBtn = $('#closeModalBtn');
+    const cancelBtn = $('#cancelBtn');
+
+    let lastFocused;
+
+    function openModal() {
+      lastFocused = document.activeElement;
+      overlay.classList.add('open');
+      overlay.removeAttribute('aria-hidden');
+      // Move focus to close button for quick escape
+      closeBtn.focus();
+      document.addEventListener('keydown', trapTab);
+      document.addEventListener('keydown', onEsc);
+    }
+    function closeModal() {
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.removeEventListener('keydown', trapTab);
+      document.removeEventListener('keydown', onEsc);
+      if (lastFocused) lastFocused.focus();
+    }
+    function onEsc(e) { if (e.key === 'Escape') closeModal(); }
+    function trapTab(e) {
+      if (e.key !== 'Tab') return;
+      const focusables = $$("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])", overlay)
+        .filter(el => !el.hasAttribute('disabled'));
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+
+    openBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+
+    // ====== Calendar ======
+    const monthLabel = $('#monthLabel');
+    const weekdayRow = $('#weekdayRow');
+    const calendarGrid = $('#calendarGrid');
+    const slotList = $('#slotList');
+
+    const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    // Render static weekday headers
+    WEEKDAYS.forEach(d => {
+      const el = document.createElement('div');
+      el.className = 'cal-cell is-header';
+      el.textContent = d;
+      weekdayRow.appendChild(el);
+    });
+
+    const today = new Date();
+    let view = new Date(today.getFullYear(), today.getMonth(), 1);
+    let selectedDate = null;
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+    function fmtDate(d) { return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; }
+
+    function renderCalendar() {
+      monthLabel.textContent = view.toLocaleString(undefined, { month: 'long', year: 'numeric' });
+      calendarGrid.innerHTML = '';
+      const firstDayIndex = new Date(view.getFullYear(), view.getMonth(), 1).getDay();
+      const daysInMonth = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
+
+      // Leading blanks
+      for (let i = 0; i < firstDayIndex; i++) {
+        const blank = document.createElement('div');
+        blank.className = 'cal-cell';
+        calendarGrid.appendChild(blank);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const cell = document.createElement('button');
+        cell.type = 'button';
+        cell.className = 'cal-cell is-day';
+        const dateObj = new Date(view.getFullYear(), view.getMonth(), day);
+        cell.setAttribute('role', 'gridcell');
+        cell.setAttribute('aria-label', dateObj.toDateString());
+        cell.textContent = day;
+
+        // Disable past days
+        const isPast = dateObj.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0);
+        if (isPast) {
+          cell.classList.add('is-muted');
+          cell.disabled = true;
+        }
+        // Selected state
+        if (selectedDate && fmtDate(dateObj) === fmtDate(selectedDate)) {
+          cell.classList.add('is-selected');
+          cell.setAttribute('aria-current', 'date');
+        }
+
+        cell.addEventListener('click', () => {
+          selectedDate = new Date(view.getFullYear(), view.getMonth(), day);
+          renderCalendar();
+          renderSlots();
+        });
+
+        calendarGrid.appendChild(cell);
+      }
+    }
+
+    $('#prevMonthBtn').addEventListener('click', () => { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); renderCalendar(); });
+    $('#nextMonthBtn').addEventListener('click', () => { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); renderCalendar(); });
+
+    // ====== Time Slots ======
+    function generateSlots() {
+      // Example: every 30m from 17:00 to 22:00
+      const start = 17 * 60, end = 22 * 60; // minutes
+      const step = 30; // minutes
+      const out = [];
+      for (let m = start; m <= end; m += step) {
+        const hh = Math.floor(m / 60), mm = m % 60;
+        const label = `${pad(hh)}:${pad(mm)}`;
+        out.push(label);
+      }
+      return out;
+    }
+
+    let selectedSlot = null;
+
+    function renderSlots() {
+      slotList.innerHTML = '';
+      const slots = generateSlots();
+      const isToday = selectedDate && fmtDate(selectedDate) === fmtDate(new Date());
+      const nowMinutes = new Date().getHours() * 60 + new Date().getMinutes();
+
+      slots.forEach(time => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'slot';
+        btn.textContent = time;
+        btn.setAttribute('role', 'option');
+        btn.setAttribute('aria-pressed', selectedSlot === time ? 'true' : 'false');
+
+        // Disable times earlier than now if booking today
+        if (isToday) {
+          const [h, m] = time.split(':').map(Number);
+          const mins = h * 60 + m;
+          if (mins <= nowMinutes) btn.classList.add('is-disabled');
+        }
+
+        btn.addEventListener('click', () => {
+          selectedSlot = time;
+          $$('.slot', slotList).forEach(s => s.setAttribute('aria-pressed', 'false'));
+          btn.setAttribute('aria-pressed', 'true');
+        });
+        slotList.appendChild(btn);
+      });
+    }
+
+    // ====== Confirmation ======
+    const confirmBtn = $('#confirmBtn');
+    const toast = $('#toast');
+
+    confirmBtn.addEventListener('click', () => {
+      const name = $('#name').value.trim();
+      const email = $('#email').value.trim();
+      const party = $('#partySize').value;
+
+      if (!selectedDate) { alert('Please select a date.'); return; }
+      if (!selectedSlot) { alert('Please select a time.'); return; }
+      if (!name) { alert('Please enter your name.'); return; }
+      if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { alert('Please enter a valid email.'); return; }
+
+      const when = `${selectedDate.toLocaleDateString()} at ${selectedSlot}`;
+      showToast(`Reservation confirmed for ${party} on ${when}. A confirmation email will be sent to ${email}.`);
+      closeModal();
+      // Here you could POST to your API with the payload
+      // const payload = { date: fmtDate(selectedDate), time: selectedSlot, party: Number(party), name, email, notes: $('#notes').value };
+    });
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3800);
+    }
+
+    // ====== Init ======
+    // Default to today selected
+    selectedDate = new Date();
+    renderCalendar();
+    renderSlots();
+  </script>
+</body>
+
+</html>

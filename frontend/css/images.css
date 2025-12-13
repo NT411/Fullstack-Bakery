@@ -1,0 +1,65 @@
+/*======================================
+            BANNER IMAGE
+=======================================*/
+
+.banner-image {
+  position: relative;
+  background: #fff0f0;
+  border: 2px solid #b18597;
+  border-radius: 1.25rem;
+  box-shadow: 0 0.8em 1.5em rgba(177, 133, 151, .18);
+  padding: clamp(0.8rem, 1.6vw, 1.25rem);
+}
+
+.banner-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit; 
+  pointer-events: none;
+}
+
+.banner-image img {
+  height: 100%;
+  width: 100%;
+  display: block;
+  border-radius: 1rem;
+  object-fit: cover;
+}
+/*======================================
+          ALL IMAGES CONTAINER
+=======================================*/
+ .images {
+   background: #fff0f0;
+   border: 2px dashed #b18597;
+   border-radius: 1.25rem;
+   padding: clamp(1rem, 2vw, 1.75rem);
+   box-shadow: 0 0.8em 1.5em rgba(177, 133, 151, .18);
+ }
+/*======================================
+          ABOUT IMAGE
+=======================================*/
+ .about-image {
+  position: relative;
+  background: #fff0f0;
+  border: 2px solid #b18597;
+  border-radius: 1.25rem;
+  box-shadow: 0 0.8em 1.5em rgba(177, 133, 151, .18);
+  padding: clamp(0.8rem, 1.6vw, 1.25rem);
+}
+
+.about-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit; 
+  pointer-events: none;
+}
+
+.about-image img {
+  height: 100%;
+  width: 100%;
+  display: block;
+  border-radius: 1rem;
+  object-fit: cover;
+}

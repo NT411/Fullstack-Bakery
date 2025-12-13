@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Basket Modal + Checkout • Blush UI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    /* =====================
+       Your Base Theme (verbatim)
+       ===================== */
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: clamp(16px, 0.9vw + 12px, 20px);
+    }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #fdf6f8;
+      color: #8d7b8d;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    :where(a, button, input, .brand, .eyebrow):focus-visible {
+      outline: 3px dashed #b18597;
+      outline-offset: 3px;
+    }
+
+    .container {
+      max-width: min(90rem, 100% - 4rem);
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    button {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      outline: none;
+      border: 0;
+      vertical-align: middle;
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 15px;
+    }
+
+    button.learn-more {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      outline: none;
+      border: 2px solid #b18597;
+      border-radius: 0.75em;
+      vertical-align: middle;
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      color: #a192a1;
+      text-transform: uppercase;
+      padding: 1.1em 1.8em;
+      background: #fff0f0;
+      overflow: visible;
+      transform-style: preserve-3d;
+      transition: background 150ms cubic-bezier(0, 0, 0.58, 1), transform 150ms cubic-bezier(0, 0, 0.58, 1);
+    }
+
+    button.learn-more::before {
+      position: absolute;
+      content: '';
+      inset: 0;
+      background: #f9c4d2;
+      border-radius: inherit;
+      box-shadow: 0 0 0 2px #b18597, 0 0.625em 0 0 #ffe3e200;
+      transform: translate3d(0, 0.75em, -1em);
+      transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+      pointer-events: none;
+    }
+
+    button.learn-more:active {
+      background: #ffe9e9;
+      transform: translate(0em, 0.75em);
+    }
+
+    button.learn-more:active::before {
+      box-shadow: 0 0 0 2px #b18597, 0 0 #ffe3e2;
+      transform: translate3d(0, 0, -1em);
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: #fff0f0;
+      border-bottom: 2px solid #b18597;
+      box-shadow: 0 0.5em 1em rgba(177, 133, 151, 0.12);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      text-decoration: none;
+      color: #8d7b8d;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: .3px;
+    }
+
+    .brand-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 0.75em;
+      background: #f9c4d2;
+      border: 2px solid #b18597;
+      box-shadow: 0 0.35em 0 0 #ffe3e2;
+      display: grid;
+      place-items: center;
+      font-size: .9rem;
+      color: #a192a1;
+      user-select: none;
+    }
+
+    .spacer {
+      flex: 1 1 auto;
+    }
+
+    .hamburger {
+      display: inline-grid;
+      gap: .25rem;
+      padding: .6rem;
+      border-radius: .6rem;
+      border: 2px solid #b18597;
+      background: #fff0f0;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #a192a1;
+    }
+
+    /* Utility */
+    .mt-3 {
+      margin-top: 1rem;
+    }
+
+    /* =====================
+       Basket Modal + Checkout
+       ===================== */
+    .cart-trigger {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    .cart-count {
+      display: inline-grid;
+      place-items: center;
+      min-width: 1.75em;
+      height: 1.75em;
+      padding: 0 .3em;
+      border-radius: .7em;
+      background: #f9c4d2;
+      border: 2px solid #b18597;
+      box-shadow: 0 .45em 0 0 #ffe3e2;
+      font-weight: 700;
+      color: #a192a1;
+      font-size: .85rem;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      background: rgba(40, 16, 28, 0.28);
+      backdrop-filter: blur(2px);
+      z-index: 100;
+    }
+
+    .modal-backdrop[aria-hidden="false"] {
+      display: grid;
+    }
+
+    .cart-drawer {
+      width: min(720px, 100%);
+      background: linear-gradient(180deg, #fff0f0 0%, #ffe9ee 100%);
+      border-top-left-radius: 1.25rem;
+      border-top-right-radius: 1.25rem;
+      border: 2px solid #b18597;
+      border-bottom: none;
+      box-shadow: 0 -0.8em 1.5em rgba(177, 133, 151, .28);
+      transform: translateY(100%);
+      transition: transform .35s cubic-bezier(.17, .67, .25, 1);
+    }
+
+    .modal-backdrop[aria-hidden="false"] .cart-drawer {
+      transform: translateY(0);
+    }
+
+    .cart-head {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: 1rem 1.25rem;
+      border-bottom: 2px dashed #b18597;
+      background: #fff0f0;
+      border-top-left-radius: 1.1rem;
+      border-top-right-radius: 1.1rem;
+    }
+
+    .cart-title {
+      font-weight: 800;
+      color: #8d7b8d;
+      font-size: 1.25rem;
+      letter-spacing: .3px;
+    }
+
+    .cart-close {
+      margin-left: auto;
+      display: inline-grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: .8rem;
+      background: #fff0f0;
+      border: 2px solid #b18597;
+      box-shadow: 0 .45em 0 0 #ffe3e2;
+    }
+
+    .cart-body {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    @media (min-width: 860px) {
+      .cart-body {
+        grid-template-columns: 1.2fr .8fr;
+      }
+    }
+
+    .items {
+      display: grid;
+      gap: .75rem;
+      max-height: 50vh;
+      overflow: auto;
+      padding-right: .25rem;
+    }
+
+    .item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: .75rem;
+      align-items: center;
+      background: #fff0f0;
+      border: 2px solid #b18597;
+      border-radius: .9rem;
+      padding: .6rem;
+      box-shadow: 0 .45em 0 0 #ffe3e2;
+    }
+
+    .thumb {
+      width: 64px;
+      height: 64px;
+      border-radius: .7rem;
+      background: #ffe3e8;
+      border: 2px dashed #b18597;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      color: #a192a1;
+    }
+
+    .meta h4 {
+      margin: 0 0 .15rem;
+      font-size: .98rem;
+      color: #8d7b8d;
+    }
+
+    .meta p {
+      margin: 0;
+      font-size: .9rem;
+      color: #9a879a;
+    }
+
+    .price {
+      font-weight: 700;
+      color: #a192a1;
+    }
+
+    .qty {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      border: 2px solid #b18597;
+      background: #fff0f0;
+      padding: .25rem;
+      border-radius: .6rem;
+      box-shadow: 0 .3em 0 0 #ffe3e2;
+    }
+
+    .qty button {
+      width: 32px;
+      height: 32px;
+      border-radius: .5rem;
+      background: #ffe9e9;
+      border: 2px solid #b18597;
+      font-weight: 700;
+      color: #a192a1;
+    }
+
+    .qty input {
+      width: 2.6rem;
+      text-align: center;
+      background: transparent;
+      border: 0;
+      font: inherit;
+      color: #8d7b8d;
+    }
+
+    .summary {
+      align-self: start;
+      display: grid;
+      gap: .9rem;
+      background: #fff0f0;
+      border: 2px solid #b18597;
+      border-radius: .9rem;
+      padding: 1rem;
+      box-shadow: 0 .8em 1.5em rgba(177, 133, 151, .18);
+    }
+
+    .summary h3 {
+      margin: 0;
+      color: #8d7b8d;
+      font-size: 1.05rem;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+      color: #9a879a;
+    }
+
+    .row strong {
+      color: #8d7b8d;
+    }
+
+    .promo {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: .5rem;
+    }
+
+    .promo input {
+      width: 100%;
+      appearance: none;
+      background: #fff0f0;
+      color: #8d7b8d;
+      border: 2px solid #b18597;
+      border-radius: .6rem;
+      padding: .7rem .8rem;
+      font: inherit;
+      box-shadow: 0 .35em 0 0 #ffe3e2;
+    }
+
+    .select {
+      width: 100%;
+      appearance: none;
+      background: #fff0f0;
+      color: #8d7b8d;
+      border: 2px solid #b18597;
+      border-radius: .6rem;
+      padding: .7rem .8rem;
+      font: inherit;
+      box-shadow: 0 .35em 0 0 #ffe3e2;
+    }
+
+    .divider {
+      height: 2px;
+      background: repeating-linear-gradient(90deg, #b18597 0 12px, transparent 12px 22px);
+      opacity: .6;
+    }
+
+    .checkout {
+      display: grid;
+      gap: .6rem;
+    }
+
+    .pay-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: .5rem;
+    }
+
+    .pay-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      background: #ffe3e8;
+      border: 2px solid #b18597;
+      border-radius: .75rem;
+      padding: .85rem 1.25rem;
+      font-weight: 700;
+      color: #a192a1;
+      box-shadow: 0 .5em 0 0 #ffe3e2;
+    }
+
+    .pay-btn:active {
+      transform: translateY(.25em);
+      box-shadow: 0 .25em 0 0 #ffe3e2;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #9a879a;
+    }
+
+    /* =====================
+       Profile Modal (User Account)
+       ===================== */
+    .profile-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      background: rgba(40, 16, 28, .28);
+      backdrop-filter: blur(2px);
+      z-index: 120;
+    }
+
+    .profile-backdrop[aria-hidden="false"] {
+      display: grid;
+    }
+
+    .profile-dialog {
+      width: min(560px, 96vw);
+      background: linear-gradient(180deg, #fff0f0 0%, #ffe9ee 100%);
+      border: 2px solid #b18597;
+      border-radius: 1.1rem;
+      box-shadow: 0 .8em 1.6em rgba(177, 133, 151, .28);
+      overflow: hidden;
+    }
+
+    .p-head {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: 1rem 1.25rem;
+      background: #fff0f0;
+      border-bottom: 2px dashed #b18597;
+    }
+
+    .p-title {
+      font-weight: 800;
+      color: #8d7b8d;
+      letter-spacing: .3px;
+    }
+
+    .p-close {
+      margin-left: auto;
+      display: inline-grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: .8rem;
+      background: #fff0f0;
+      border: 2px solid #b18597;
+      box-shadow: 0 .45em 0 0 #ffe3e2;
+    }
+
+    .p-body {
+      padding: 1rem 1.25rem 1.25rem;
+      display: grid;
+      gap: .9rem;
+    }
+
+    .field {
+      display: grid;
+      gap: .35rem;
+    }
+
+    .label {
+      font-size: .9rem;
+      color: #9a879a;
+      font-weight: 600;
+    }
+
+    .input {
+      width: 100%;
+      appearance: none;
+      background: #fff0f0;
+      color: #8d7b8d;
+      border: 2px solid #b18597;
+      border-radius: .75rem;
+      padding: .8rem 1rem;
+      font: inherit;
+      box-shadow: 0 .45em 0 0 #ffe3e2;
+    }
+
+    .inline-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .6rem;
+    }
+
+    .actions {
+      display: flex;
+      gap: .6rem;
+      flex-wrap: wrap;
+      margin-top: .25rem;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .45rem .6rem;
+      background: #fff0f0;
+      border: 2px solid #b18597;
+      border-radius: .6rem;
+      box-shadow: 0 .35em 0 0 #ffe3e2;
+      color: #a192a1;
+      font-weight: 600;
+    }
+
+    .avatar {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    .avatar-badge {
+      width: 46px;
+      height: 46px;
+      border-radius: 1rem;
+      background: #f9c4d2;
+      border: 2px solid #b18597;
+      box-shadow: 0 .5em 0 0 #ffe3e2;
+      display: grid;
+      place-items: center;
+      color: #a192a1;
+      font-weight: 800;
+    }
+
+        /* ========== Payment Modal ========== */
+    .pay-modal-backdrop {
+    position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      background: rgba(40, 16, 28, .28);
+      backdrop-filter: blur(2px);
+      z-index: 120;
+    }
+
+    .pay-modal-backdrop[aria-hidden="false"] {
+      display: grid;
+    }
+
+    .pay-dialog {
+      width: min(560px, 96vw);
+      background: linear-gradient(180deg, #fff0f0 0%, #ffe9ee 100%);
+      border: 2px solid #b18597;
+      border-radius: 1.1rem;
+      box-shadow: 0 .8em 1.6em rgba(177, 133, 151, .28);
+      overflow: hidden;
+    }
+
+    .pay-head {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: 1rem 1.25rem;
+      background: #fff0f0;
+      border-bottom: 2px dashed #b18597;
+    }
+
+    .pay-title {
+      font-weight: 800;
+      color: #8d7b8d;
+      letter-spacing: .3px;
+    }
+
+    .pay-close {
+      margin-left: auto;
+      display: inline-grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: .8rem;
+      background: #fff0f0;
+      border: 2px solid #b18597;
+      box-shadow: 0 .45em 0 0 #ffe3e2;
+    }
+
+    .pay-body {
+      padding: 1rem 1.25rem 1.25rem;
+      display: grid;
+      gap: .9rem;
+    }
+
+    .field {
+      display: grid;
+      gap: .35rem;
+    }
+
+    .label {
+      font-size: .9rem;
+      color: #9a879a;
+      font-weight: 600;
+    }
+
+    .input {
+      width: 100%;
+      appearance: none;
+      background: #fff0f0;
+      color: #8d7b8d;
+      border: 2px solid #b18597;
+      border-radius: .75rem;
+      padding: .8rem 1rem;
+      font: inherit;
+      box-shadow: 0 .45em 0 0 #ffe3e2;
+    }
+
+    .inline {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .6rem;
+    }
+
+    .tertiary {
+      font-size: .85rem;
+      color: #a192a1;
+    }
+
+    .secure-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .85rem;
+      color: #a192a1;
+    }
+
+    .secure-badge .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #f9c4d2;
+      border: 2px solid #b18597;
+      box-shadow: 0 .3em 0 0 #ffe3e2;
+    }
+
+    .error {
+      color: #b05a7a;
+      font-size: .85rem;
+    }
+
+    .pay-actions {
+      display: grid;
+      gap: .5rem;
+      margin-top: .25rem;
+    }
+
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      background: #ffe3e8;
+      border: 2px solid #b18597;
+      border-radius: .9rem;
+      padding: 1rem 1.25rem;
+      font-weight: 800;
+      color: #a192a1;
+      box-shadow: 0 .6em 0 0 #ffe3e2;
+    }
+
+    .btn-primary:active {
+      transform: translateY(.25em);
+      box-shadow: 0 .3em 0 0 #ffe3e2;
+    }
+
+    .btn-secondary {
+      background: #fff0f0;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 3px dashed #b18597;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Demo page bits */
+    .demo {
+      padding: 3rem 0;
+    }
+
+    .price-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .5rem .7rem;
+      background: #fff0f0;
+      border: 2px solid #b18597;
+      border-radius: .7rem;
+      box-shadow: 0 .45em 0 0 #ffe3e2;
+      font-weight: 700;
+      color: #a192a1;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Demo navbar with cart button -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="#" aria-label="Blush Home">
+        <span class="brand-badge">☆</span>
+        Blush Boutique
+      </a>
+      <div class="spacer"></div>
+      <button class="learn-more" id="openProfile">Profile</button>
+      <button class="learn-more cart-trigger" id="openCart">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6h15l-1.5 9h-12z" stroke="#a192a1" stroke-width="2" />
+          <circle cx="9" cy="20" r="1.5" fill="#a192a1" />
+          <circle cx="18" cy="20" r="1.5" fill="#a192a1" />
+        </svg>
+        Cart
+        <span class="cart-count" id="cartCount">3</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Modal / Drawer -->
+  <div class="modal-backdrop" id="cartModal" aria-hidden="true" aria-labelledby="cartTitle" role="dialog">
+    <section class="cart-drawer" tabindex="-1">
+      <header class="cart-head">
+        <div class="brand-badge" aria-hidden="true">🧺</div>
+        <div class="cart-title" id="cartTitle">Your Cart</div>
+        <button class="cart-close" id="closeCart" aria-label="Close basket">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" stroke="#a192a1" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </header>
+
+      <div class="cart-body">
+        <!-- Items -->
+        <div>
+          <div class="items" id="items">
+            <!-- JS populates items here -->
+          </div>
+          <div class="empty" id="emptyState" hidden>Looks like your cart is feeling a little empty ✨</div>
+        </div>
+
+        <!-- Summary / Checkout -->
+        <aside class="summary">
+          <h3>Order Summary</h3>
+          <div class="row"><span>Subtotal</span><strong id="subtotal">€0.00</strong></div>
+          <div class="row"><span>Shipping</span>
+            <select class="select" id="shipping">
+              <option value="0">Free – Pickup (0€)</option>
+              <option value="4.50">Standard (4.50€)</option>
+              <option value="9.90">Express (9.90€)</option>
+            </select>
+          </div>
+          <div class="promo">
+            <input id="promo" type="text" placeholder="Promo code" aria-label="Promo code">
+            <button class="learn-more" id="applyPromo">Apply</button>
+          </div>
+          <div class="row"><span>Discount</span><strong id="discount">– €0.00</strong></div>
+          <div class="divider"></div>
+          <div class="row" style="font-size:1.1rem; font-weight:800;"><span>Total</span><strong
+              id="total">€0.00</strong></div>
+          <div class="checkout">
+            <button class="learn-more btn-lg" id="openPay">Pay Now</button>
+           
+          </div>
+        </aside>
+      </div>
+    </section>
+  </div>
+
+  <!-- Profile Modal -->
+  <div class="profile-backdrop" id="profileModal" aria-hidden="true" role="dialog" aria-labelledby="profileTitle">
+    <section class="profile-dialog" tabindex="-1">
+      <header class="p-head">
+        <div class="brand-badge" aria-hidden="true">👤</div>
+        <div class="p-title" id="profileTitle">Your Profile</div>
+        <button class="p-close" id="profileClose" aria-label="Close profile">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" stroke="#a192a1" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </header>
+      <form class="p-body" id="profileForm" novalidate>
+        <div class="avatar">
+          <div class="avatar-badge" id="avatarInitial">🙂</div>
+          <span class="chip">Member since <span id="memberSince">—</span></span>
+        </div>
+        <div class="field">
+          <label class="label" for="fullName">Full name</label>
+          <input class="input" id="fullName" placeholder="Alex Blush" autocomplete="name" />
+        </div>
+        <div class="field">
+          <label class="label" for="emailP">Email</label>
+          <input class="input" id="emailP" type="email" placeholder="alex@example.com" autocomplete="email" />
+        </div>
+        <div class="inline-2">
+          <div class="field">
+            <label class="label" for="phone">Phone</label>
+            <input class="input" id="phone" inputmode="tel" placeholder="+49 151 2345 6789" autocomplete="tel" />
+          </div>
+          <div class="field">
+            <label class="label" for="birthday">Birthday</label>
+            <input class="input" id="birthday" type="date" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="address">Address</label>
+          <input class="input" id="address" placeholder="Street, City, Country" autocomplete="street-address" />
+        </div>
+        <label class="chip" style="width:max-content;">
+          <input type="checkbox" id="marketing" style="accent-color:#b18597; transform: translateY(1px);" />
+          Receive news & offers
+        </label>
+        <div class="actions">
+          <button class="learn-more" id="saveProfile">Save</button>
+          <button class="learn-more" id="saveProfile">Order History</button>
+          <button type="button" class="learn-more" id="logoutBtn">Log out</button>
+        </div>
+      </form>
+    </section>
+  </div>
+<!-- Payment Modal -->
+  <div class="pay-modal-backdrop" id="payModal" aria-hidden="true" role="dialog" aria-labelledby="payTitle">
+    <section class="pay-dialog" tabindex="-1">
+      <header class="pay-head">
+        <div class="brand-badge" aria-hidden="true"
+          style="width:34px;height:34px;border-radius:.75rem;background:#f9c4d2;border:2px solid #b18597;box-shadow:0 .35em 0 0 #ffe3e2;display:grid;place-items:center;color:#a192a1;">
+          💳</div>
+        <div class="pay-title" id="payTitle">Secure Payment</div>
+        <button class="pay-close" id="payClose" aria-label="Close payment">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" stroke="#a192a1" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </header>
+      <form class="pay-body" id="payForm" novalidate>
+        <div class="secure-badge"><span class="dot" aria-hidden="true"></span> 256‑bit SSL • PSD2/3‑D Secure (demo)
+        </div>
+        <div class="field">
+          <label class="label" for="cardName">Name on card</label>
+          <input class="input" id="cardName" autocomplete="cc-name" placeholder="Alex Blush" required />
+          <div class="error" data-error-for="cardName" hidden>Please enter the cardholder name.</div>
+        </div>
+        <div class="field">
+          <label class="label" for="cardNumber">Card number</label>
+          <input class="input" id="cardNumber" inputmode="numeric" autocomplete="cc-number"
+            placeholder="4242 4242 4242 4242" maxlength="19" required />
+          <div class="error" data-error-for="cardNumber" hidden>Enter a valid card number.</div>
+        </div>
+        <div class="inline">
+          <div class="field">
+            <label class="label" for="exp">Expiry (MM/YY)</label>
+            <input class="input" id="exp" inputmode="numeric" autocomplete="cc-exp" placeholder="12/28" maxlength="5"
+              required />
+            <div class="error" data-error-for="exp" hidden>Enter a valid future date.</div>
+          </div>
+          <div class="field">
+            <label class="label" for="cvc">CVC</label>
+            <input class="input" id="cvc" inputmode="numeric" autocomplete="cc-csc" placeholder="123" maxlength="4"
+              required />
+            <div class="error" data-error-for="cvc" hidden>Enter a valid CVC.</div>
+          </div>
+        </div>
+        <div class="inline">
+          <div class="field">
+            <label class="label" for="email">Receipt email</label>
+            <input class="input" id="email" type="email" placeholder="alex@example.com" autocomplete="email" required />
+            <div class="error" data-error-for="email" hidden>Enter a valid email.</div>
+          </div>
+          <div class="field">
+            <label class="label" for="zip">Postal code</label>
+            <input class="input" id="zip" inputmode="numeric" autocomplete="postal-code" placeholder="10115"
+              maxlength="10" required />
+            <div class="error" data-error-for="zip" hidden>Enter a valid code.</div>
+          </div>
+        </div>
+        <div class="tertiary">By confirming, you authorize a one‑time charge. No card data is stored (demo).</div>
+        <div class="pay-actions">
+          <button class="btn-primary" id="confirmPay"><span id="confirmLabel">Pay</span> <span
+              id="confirmAmount">€0.00</span></button>
+          <button type="button" class="btn-primary btn-secondary" id="altWallet">Apple/Google Pay (demo)</button>
+        </div>
+      </form>
+    </section>
+  </div>
+  
+  <script>
+   
+        const openBtn = document.getElementById('openPay');
+    const demoAmount = document.getElementById('subtotal');
+    const payModal = document.getElementById('payModal');
+    const payClose = document.getElementById('payClose');
+    const payForm = document.getElementById('payForm');
+    const confirmBtn = document.getElementById('confirmPay');
+    const confirmLabel = document.getElementById('confirmLabel');
+    const confirmAmount = document.getElementById('confirmAmount');
+    function toast(msg) {
+      const t = document.createElement('div');
+      t.style.position = 'fixed'; t.style.left = '50%'; t.style.bottom = '18px'; t.style.transform = 'translateX(-50%)';
+      t.style.background = '#fff0f0'; t.style.border = '2px solid #b18597'; t.style.boxShadow = '0 .6em 0 0 #ffe3e2';
+      t.style.color = '#8d7b8d'; t.style.padding = '.6rem .9rem'; t.style.borderRadius = '.75rem'; t.style.fontWeight = '700'; t.textContent = msg;
+      document.body.appendChild(t); setTimeout(() => { t.remove(); }, 1800);
+    }
+
+    function openPayment(opts = {}) {
+      const amountText = demoAmount.textContent || '€0.00';
+      confirmAmount.textContent = amountText;
+      confirmLabel.textContent = opts.wallet ? 'Pay with Wallet' : 'Pay';
+      payModal.setAttribute('aria-hidden', 'false');
+      payModal.querySelector('.pay-dialog').focus();
+    }
+    function closePayment() { payModal.setAttribute('aria-hidden', 'true'); }
+
+    openBtn.addEventListener('click', () => openPayment());
+    payClose.addEventListener('click', closePayment);
+    payModal.addEventListener('click', (e) => { if (e.target === payModal) closePayment(); });
+    document.addEventListener('keydown', (e) => { if (payModal.getAttribute('aria-hidden') === 'false' && e.key === 'Escape') closePayment(); });
+
+    // simple masking
+    const num = document.getElementById('cardNumber');
+    num.addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim().slice(0, 19); });
+    const exp = document.getElementById('exp');
+    exp.addEventListener('input', (e) => { let v = e.target.value.replace(/\D/g, '').slice(0, 4); if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2); e.target.value = v; });
+    const cvc = document.getElementById('cvc');
+    cvc.addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4); });
+
+    // validation helpers
+    function luhn(num) { num = num.replace(/\s+/g, ''); let sum = 0; let dbl = false; for (let i = num.length - 1; i >= 0; i--) { let d = +num[i]; if (dbl) { d *= 2; if (d > 9) d -= 9; } sum += d; dbl = !dbl; } return sum % 10 === 0 && num.length >= 13; }
+    function futureExp(mmYY) { const m = +(mmYY.slice(0, 2)); const y = +(mmYY.slice(3)); if (!m || !y || m < 1 || m > 12) return false; const now = new Date(); const year = 2000 + y; const expD = new Date(year, m); return expD > now; }
+
+    payForm.addEventListener('submit', (e) => e.preventDefault());
+    confirmBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const fields = ['cardName', 'cardNumber', 'exp', 'cvc', 'email', 'zip'];
+      let ok = true;
+      fields.forEach(id => { const el = document.getElementById(id); const err = document.querySelector(`[data-error-for="${id}"]`); let valid = !!el.value.trim(); if (id === 'cardNumber') valid = valid && luhn(el.value); if (id === 'exp') valid = valid && futureExp(el.value); if (id === 'cvc') valid = valid && el.value.replace(/\D/g, '').length >= 3; if (id === 'email') valid = valid && /.+@.+\..+/.test(el.value); err.hidden = valid; if (!valid) ok = false; });
+      if (!ok) { toast('Please fix the highlighted fields.'); return; }
+      confirmBtn.disabled = true; confirmBtn.innerHTML = '<span class="loading" aria-hidden="true"></span> Confirming…';
+      setTimeout(() => { confirmBtn.innerHTML = '<span>3‑D Secure</span> <span class="loading" aria-hidden="true"></span>'; }, 900);
+      setTimeout(() => { confirmBtn.disabled = false; closePayment(); toast('Payment successful (demo)'); }, 2200);
+    });
+
+    document.getElementById('altWallet').addEventListener('click', () => { openPayment({ wallet: true }); toast('Opening wallet sheet… (demo)'); });
+    // Demo data
+    const demoItems = [
+      { id: 'p01', name: 'Rosy Crewneck', color: 'Blush', price: 38.00, qty: 1 },
+      { id: 'p02', name: 'Petal Socks (2-pack)', color: 'Pearl', price: 12.50, qty: 2 },
+      { id: 'p03', name: 'Velvet Scrunchie', color: 'Mauve', price: 6.90, qty: 1 }
+    ];
+
+    const state = { items: JSON.parse(JSON.stringify(demoItems)), discount: 0, promo: null };
+
+    // Elements
+    const modal = document.getElementById('cartModal');
+    const itemsEl = document.getElementById('items');
+    const emptyEl = document.getElementById('emptyState');
+    const subtotalEl = document.getElementById('subtotal');
+    const discountEl = document.getElementById('discount');
+    const totalEl = document.getElementById('total');
+    const shippingEl = document.getElementById('shipping');
+    const cartCountEl = document.getElementById('cartCount');
+
+    // Open / Close
+    const openButtons = [document.getElementById('openCart')];
+    openButtons.forEach(btn => btn.addEventListener('click', openCart));
+    document.getElementById('closeCart').addEventListener('click', closeCart);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeCart(); });
+    document.addEventListener('keydown', (e) => { if (modal.getAttribute('aria-hidden') === 'false' && e.key === 'Escape') closeCart(); });
+
+    function openCart() {
+      modal.setAttribute('aria-hidden', 'false');
+      trapFocus(modal);
+    }
+    function closeCart() {
+      modal.setAttribute('aria-hidden', 'true');
+      releaseFocus();
+    }
+
+    // Focus trap (simple)
+    let lastFocused = null; let trapHandler = null;
+    function trapFocus(container) {
+      lastFocused = document.activeElement; container.querySelector('.cart-drawer').focus();
+      const focusables = container.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      const first = focusables[0]; const last = focusables[focusables.length - 1];
+      trapHandler = (e) => { if (e.key !== 'Tab') return; if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); } else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); } };
+      container.addEventListener('keydown', trapHandler);
+    }
+    function releaseFocus() { if (trapHandler) { modal.removeEventListener('keydown', trapHandler); } if (lastFocused) lastFocused.focus(); }
+
+    // Render items
+    function render() {
+      itemsEl.innerHTML = '';
+      if (state.items.length === 0) { emptyEl.hidden = false; } else { emptyEl.hidden = true; }
+      state.items.forEach(item => {
+        const row = document.createElement('div'); row.className = 'item';
+        row.innerHTML = `
+          <div class="thumb">${item.name.split(' ')[0][0]}</div>
+          <div class="meta">
+            <h4>${item.name}</h4>
+            <p>${item.color}</p>
+            <div class="qty" aria-label="Quantity controls for ${item.name}">
+              <button aria-label="Decrease" data-act="dec">–</button>
+              <input type="number" value="${item.qty}" min="1" inputmode="numeric" aria-label="Quantity" />
+              <button aria-label="Increase" data-act="inc">+</button>
+            </div>
+          </div>
+          <div style="display:grid; gap:.4rem; justify-items:end;">
+            <div class="price">€${(item.price * item.qty).toFixed(2)}</div>
+            <button class="pay-btn" data-act="remove" aria-label="Remove ${item.name}">Remove</button>
+          </div>`;
+
+        // Events
+        row.querySelector('[data-act="inc"]').addEventListener('click', () => updateQty(item.id, item.qty + 1));
+        row.querySelector('[data-act="dec"]').addEventListener('click', () => updateQty(item.id, Math.max(1, item.qty - 1)));
+        row.querySelector('input[type="number"]').addEventListener('input', (e) => {
+          const v = parseInt(e.target.value || '1', 10); updateQty(item.id, Math.max(1, v));
+        });
+        row.querySelector('[data-act="remove"]').addEventListener('click', () => removeItem(item.id));
+
+        itemsEl.appendChild(row);
+      });
+      updateTotals();
+    }
+
+    function updateQty(id, qty) { const it = state.items.find(i => i.id === id); if (!it) return; it.qty = qty; render(); }
+    function removeItem(id) { state.items = state.items.filter(i => i.id !== id); render(); }
+
+    function sum() { return state.items.reduce((t, i) => t + i.price * i.qty, 0); }
+    function updateTotals() {
+      const subtotal = sum();
+      const shipping = parseFloat(shippingEl.value);
+      const discount = state.discount;
+      const total = Math.max(0, subtotal + shipping - discount);
+      subtotalEl.textContent = `€${subtotal.toFixed(2)}`;
+      discountEl.textContent = `– €${discount.toFixed(2)}`;
+      totalEl.textContent = `€${total.toFixed(2)}`;
+      cartCountEl.textContent = state.items.reduce((n, i) => n + i.qty, 0);
+      emptyEl.hidden = state.items.length !== 0;
+    }
+
+    // Shipping change
+    shippingEl.addEventListener('change', updateTotals);
+
+    // Promo codes (demo): BLOOM10 => 10% off, PETAL5 => €5 off
+    document.getElementById('applyPromo').addEventListener('click', () => {
+      const code = (document.getElementById('promo').value || '').trim().toUpperCase();
+      const subtotal = sum();
+      let discount = 0; let note = '';
+      if (code === 'BLOOM10') { discount = +(subtotal * 0.10).toFixed(2); note = '10% off applied'; }
+      else if (code === 'PETAL5') { discount = 5.00; note = '€5 off applied'; }
+      else if (!code) { discount = 0; note = 'Promo cleared'; }
+      else { alert('Sorry, that promo is not valid.'); return; }
+      state.promo = code || null; state.discount = Math.min(discount, subtotal);
+      updateTotals();
+      if (note) toast(note);
+    });
+
+    // Checkout demo
+
+
+
+
+    // Tiny toast helper in theme
+    function toast(msg) {
+      const t = document.createElement('div');
+      t.style.position = 'fixed'; t.style.left = '50%'; t.style.bottom = '18px'; t.style.transform = 'translateX(-50%)';
+      t.style.background = '#fff0f0'; t.style.border = '2px solid #b18597'; t.style.boxShadow = '0 .6em 0 0 #ffe3e2';
+      t.style.color = '#8d7b8d'; t.style.padding = '.6rem .9rem'; t.style.borderRadius = '.75rem'; t.style.fontWeight = '700'; t.textContent = msg;
+      document.body.appendChild(t); setTimeout(() => { t.remove(); }, 1800);
+    }
+
+    // Profile modal logic
+    const profileModal = document.getElementById('profileModal');
+    const openProfileBtn = document.getElementById('openProfile');
+    const closeProfileBtn = document.getElementById('profileClose');
+    const profileForm = document.getElementById('profileForm');
+    const avatarInitial = document.getElementById('avatarInitial');
+    const memberSince = document.getElementById('memberSince');
+
+    function openProfile() {
+      // Prefill from localStorage
+      const data = JSON.parse(localStorage.getItem('blush_profile') || '{}');
+      ['fullName', 'emailP', 'phone', 'birthday', 'address'].forEach(id => { const el = document.getElementById(id); if (el && data[id]) el.value = data[id]; });
+      document.getElementById('marketing').checked = !!data.marketing;
+      // Avatar
+      const name = document.getElementById('fullName').value || data.fullName || 'Guest';
+      avatarInitial.textContent = (name.trim()[0] || 'G').toUpperCase();
+      // Member since
+      if (!data.memberSince) { data.memberSince = new Date().toISOString().slice(0, 10); localStorage.setItem('blush_profile', JSON.stringify(data)); }
+      memberSince.textContent = data.memberSince;
+
+      profileModal.setAttribute('aria-hidden', 'false');
+      profileModal.querySelector('.profile-dialog').focus();
+    }
+    function closeProfile() { profileModal.setAttribute('aria-hidden', 'true'); }
+
+    openProfileBtn.addEventListener('click', openProfile);
+    closeProfileBtn.addEventListener('click', closeProfile);
+    profileModal.addEventListener('click', (e) => { if (e.target === profileModal) closeProfile(); });
+    document.addEventListener('keydown', (e) => { if (profileModal.getAttribute('aria-hidden') === 'false' && e.key === 'Escape') closeProfile(); });
+
+    document.getElementById('saveProfile').addEventListener('click', (e) => {
+      e.preventDefault();
+      const data = {
+        fullName: document.getElementById('fullName').value.trim(),
+        emailP: document.getElementById('emailP').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        birthday: document.getElementById('birthday').value,
+        address: document.getElementById('address').value.trim(),
+        marketing: document.getElementById('marketing').checked,
+        memberSince: memberSince.textContent
+      };
+      if (data.emailP && !/.+@.+\..+/.test(data.emailP)) { toast('Please enter a valid email.'); return; }
+      localStorage.setItem('blush_profile', JSON.stringify(data));
+      toast('Profile saved');
+      closeProfile();
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.removeItem('blush_profile'); toast('Logged out (demo)'); closeProfile(); });
+
+    // Init
+    render();
+  </script>
+</body>
+
+</html>

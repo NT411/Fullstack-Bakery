@@ -1,0 +1,123 @@
+/* ======= Pastel Modals ======= */
+.global-main-page-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(141, 123, 141, 0.25);
+  backdrop-filter: blur(2px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 999;
+}
+
+.global-main-page-modal[open] {
+  display: flex;
+}
+
+.modal {
+  width: min(520px, 100%);
+  background: #fff0f0;
+  border: 2px solid #b18597;
+  border-radius: 1rem;
+  box-shadow: 0 1.1em 2em rgba(177, 133, 151, .22);
+  padding: 1.25rem;
+  color: #8d7b8d;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin-bottom: .75rem;
+}
+
+.modal-title {
+  font-weight: 800;
+  letter-spacing: .3px;
+  font-size: 1.25rem;
+}
+
+.modal-close {
+  border: 2px solid #b18597;
+  background: #fff0f0;
+  border-radius: .6rem;
+  padding: .4rem .6rem;
+  cursor: pointer;
+  box-shadow: 0 .45em 0 0 #ffe3e2;
+  color: #a192a1;
+  font-weight: 700;
+}
+
+
+
+.modal-body {
+  display: grid;
+  gap: .85rem;
+}
+
+.field {
+  display: grid;
+  gap: .35rem;
+}
+
+.field label {
+  font-size: .9rem;
+  font-weight: 600;
+  color: #a192a1;
+}
+
+.field input {
+  appearance: none;
+  width: 100%;
+  background: #fff0f0;
+  color: #8d7b8d;
+  border: 2px solid #b18597;
+  border-radius: .75rem;
+  padding: .85rem 1rem;
+  font: inherit;
+  box-shadow: 0 .45em 0 0 #ffe3e2;
+}
+
+.field input::placeholder {
+  color: #b29ead;
+}
+
+.actions {
+  display: grid;
+  gap: .65rem;
+  margin-top: .25rem;
+}
+
+.link-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .92rem;
+}
+
+.soft-link {
+  color: #a192a1;
+  text-decoration: none;
+  font-weight: 700;
+  border: 2px dashed transparent;
+  border-radius: .6rem;
+  padding: .25rem .4rem;
+}
+
+.soft-link:hover {
+  border-color: #b18597;
+  background: #ffe9e9;
+}
+
+.muted {
+  font-size: .9rem;
+  color: #9a879a;
+}
+
+/* Small helper so  .main-btn works full-width here */
+.main-btn-block {
+  width: 100%;
+  text-align: center;
+}

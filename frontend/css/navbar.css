@@ -1,0 +1,136 @@
+/* ========== Navbar ========== */
+.navbar {
+  position: fixed;
+  top: 0;
+  z-index: 50;
+  background: #fff0f0;
+  border-bottom: 2px solid #b18597;
+  box-shadow: 0 0.5em 1em rgba(177, 133, 151, 0.12);
+  width: 100%;
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  text-decoration: none;
+  color: #8d7b8d;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: .3px;
+}
+
+.brand-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 0.75em;
+  background: #f9c4d2;
+  border: 2px solid #b18597;
+  box-shadow: 0 0.35em 0 0 #ffe3e2;
+  display: grid;
+  place-items: center;
+  font-size: .9rem;
+  color: #a192a1;
+  user-select: none;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.nav-links {
+  display: none;
+  gap: 1rem;
+  align-items: center;
+}
+
+.nav-links a {
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: .85rem;
+  color: #a192a1;
+  padding: .6rem .8rem;
+  border-radius: .6rem;
+  border: 2px solid transparent;
+}
+
+.nav-links a:hover {
+  outline: 3px dashed #b18597;
+  outline-offset: 3px;
+  border-color: #b18597;
+  background: #ffe9e9;
+}
+
+.nav-btns {
+  display: none;
+  align-items: center;
+  gap: .75rem;
+}
+
+.hamburger {
+  display: inline-grid;
+  gap: .25rem;
+  padding: .6rem;
+  border-radius: .6rem;
+  border: 2px solid #b18597;
+  background: #fff0f0;
+  cursor: pointer;
+}
+
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #a192a1;
+}
+
+.mobile-panel {
+  display: none;
+  border-top: 2px solid #b18597;
+  background: #fff0f0;
+
+}
+
+.mobile-panel a {
+  display: block;
+  padding: .9rem 1rem;
+  text-decoration: none;
+  color: #8d7b8d;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-bottom: 1px dashed #b18597;
+}
+
+.mobile-btns {
+  padding: 1rem;
+  display: grid;
+  gap: .75rem;
+}
+
+
+@media (min-width: 900px) {
+  .hamburger {
+    display: none;
+  }
+
+  .nav-links {
+    display: flex;
+  }
+
+  .nav-btns {
+    display: flex;
+  }
+
+  .mobile-panel {
+    display: none !important;
+
+  }
+}

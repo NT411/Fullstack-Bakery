@@ -1,0 +1,123 @@
+/* ========== Filters Bar ========== */
+.filters {
+  display: grid;
+  gap: .8rem;
+  grid-template-columns: 1fr;
+  align-items: end;
+  padding: 1rem;
+  background: #fff0f0;
+  border: 2px solid #b18597;
+  border-radius: 1rem;
+  box-shadow: 0 0.6em 1.2em rgba(177, 133, 151, .12);
+}
+
+
+
+.filters label {
+  font-weight: 700;
+  font-size: .85rem;
+  color: #a192a1;
+  display: block;
+  margin-bottom: .35rem;
+}
+
+.filters select,
+.filters input[type="search"] {
+  width: 100%;
+  appearance: none;
+  background: #fff0f0;
+  color: #8d7b8d;
+  border: 2px solid #b18597;
+  border-radius: .75rem;
+  padding: .7rem .9rem;
+  font: inherit;
+  box-shadow: 0 .45em 0 0 #ffe3e2;
+}
+
+/* ========== Courses Grid ========== */
+.products-section {
+  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  background: linear-gradient(180deg, #fff0f0 0%, #ffe9ee 100%);
+  border-top: 2px solid #b18597;
+  border-bottom: 2px solid #b18597;
+}
+
+.producrs-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+
+
+.course-card {
+  background: #fff0f0;
+  border: 2px solid #b18597;
+  border-radius: 1rem;
+  padding: 1rem;
+  display: grid;
+  gap: .75rem;
+  box-shadow: 0 .8em 1.5em rgba(177, 133, 151, .16);
+}
+
+.course-title {
+  margin: 0;
+  color: #8d7b8d;
+  font-size: 1.1rem;
+}
+
+.course-meta {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+
+.course-desc {
+  margin: .25rem 0 .5rem;
+  color: #9a879a;
+  line-height: 1.6;
+}
+
+.meta-line {
+  font-size: .9rem;
+  color: #9a879a;
+}
+
+@media (min-width: 680px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 760px) {
+  .filters {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .banner-inner {
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+
+}
+
+@media (min-width: 860px) {
+  .cart-body {
+    grid-template-columns: 1.2fr .8fr;
+  }
+}

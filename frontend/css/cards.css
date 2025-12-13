@@ -1,0 +1,41 @@
+/* ========== services-card (feature/spotlight) ========== */
+.section-services {
+  display: flex;
+  flex-direction: row;
+  padding: clamp(3rem, 6vw, 5rem) 0;
+}
+
+.services-card {
+  background: #fff0f0;
+  border: 2px solid #b18597;
+  border-radius: 1em;
+  padding: clamp(1.5em, 2.5vw, 2.5em);
+  width: 100%;
+  height: 100%;
+  /* NEW: a touch wider on big screens */
+  text-align: center;
+  box-shadow: 0 0.5em 1em rgba(177, 133, 151, 0.2);
+  margin: 0 auto;
+}
+
+.services-card h3 {
+  color: #a192a1;
+  margin-bottom: 0.5em;
+  font-size: clamp(1.1rem, 1.4vw, 1.4rem);
+}
+
+.services-card p {
+  color: #8d7b8d;
+  font-size: clamp(0.98rem, 1.1vw, 1.1rem);
+  line-height: 1.6;
+  margin-bottom: 1.5em;
+}
+
+@media (max-width: 900px) {
+  .section-services {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: clamp(3rem, 6vw, 5rem) 0;
+  }
+}

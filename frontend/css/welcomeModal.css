@@ -1,0 +1,156 @@
+/* Welcome modal styling */
+.welcome-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(141, 123, 141, 0.25);
+  backdrop-filter: blur(2px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.welcome-backdrop[aria-hidden="false"] {
+  display: flex;
+}
+
+.welcome-modal {
+  width: min(680px, 92vw);
+  background: #fff0f0;
+  border: 2px solid #b18597;
+  border-radius: 1rem;
+  box-shadow: 0 1.2em 2.2em rgba(177, 133, 151, 0.22);
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  position: relative;
+  color: #8d7b8d;
+}
+
+.welcome-modal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px dashed #b18597;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.welcome-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-modal-badge {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  background: #f9c4d2;
+  border: 2px solid #b18597;
+  border-radius: 0.9rem;
+  box-shadow: 0 0.5em 0 0 #ffe3e2;
+  color: #a192a1;
+  font-weight: 700;
+}
+
+.welcome-modal-title {
+  margin: 0;
+  color: #8d7b8d;
+  font-size: clamp(1.3rem, 3.2vw, 1.75rem);
+}
+
+.welcome-modal-body {
+  margin-top: 0.25rem;
+  color: #9a879a;
+  line-height: 1.6;
+}
+
+.welcome-modal-body p {
+  margin: 0 0 0.9rem;
+}
+
+.welcome-modal-form {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 0.75rem;
+}
+
+.welcome-input input[type="text"],
+.welcome-input input[type="email"] {
+  width: 100%;
+  appearance: none;
+  background: #fff0f0;
+  color: #8d7b8d;
+  border: 2px solid #b18597;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  font: inherit;
+  box-shadow: 0 0.45em 0 0 #ffe3e2;
+}
+
+.welcome-input input::placeholder {
+  color: #b29ead;
+}
+
+.welcome-actions {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+.welcome-close-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: #fff0f0;
+  border: 2px solid #b18597;
+  border-radius: 0.6rem;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0.45em 0 0 #ffe3e2;
+  cursor: pointer;
+}
+
+.welcome-close-btn span {
+  display: block;
+  width: 16px;
+  height: 16px;
+  position: relative;
+}
+
+.welcome-close-btn span::before,
+.welcome-close-btn span::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 16px;
+  height: 2px;
+  background: #a192a1;
+}
+
+.welcome-close-btn span::before {
+  transform: rotate(45deg);
+}
+
+.welcome-close-btn span::after {
+  transform: rotate(-45deg);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

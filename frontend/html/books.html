@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TheSweetBaker Co. — Baking Courses</title>
+  <link rel="stylesheet" href="/frontend/css/styles.css">
+  <link rel="stylesheet" href="/frontend/css/buttons.css">
+  <link rel="stylesheet" href="/frontend/css/navbar.css">
+  <link rel="stylesheet" href="/frontend/css/faq.css">
+  <link rel="stylesheet" href="/frontend/css/footer.css">
+  <link rel="stylesheet" href="/frontend/css/productsSection.css">
+  <link rel="stylesheet" href="/frontend/css/banner.css">
+  <link rel="stylesheet" href="/frontend/css/images.css">
+  <link rel="stylesheet" href="/frontend/css/profileModal.css">
+  <link rel="stylesheet" href="/frontend/css/decorations.css">
+  <link rel="stylesheet" href="/frontend/css/paymentModal.css">
+  <link rel="stylesheet" href="/frontend/css/cartModal.css">
+
+</head>
+
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header class="navbar" role="banner">
+    <div class="container nav-inner">
+      <a href="#" class="brand"><span class="brand-badge">☼</span>TheSweetBakers Co.</a>
+      <div class="spacer"></div>
+      <nav class="nav-links" aria-label="Primary">
+
+        <a href="order.html">Order</a>
+        <a href="school.html">Baking School</a>
+        <a href="books.html">Baking Books</a>
+      </nav>
+      <div class="nav-btns">
+        <button class="main-btn btn-spacer" id="openCart">Cart</button>
+        <button class="main-btn btn-spacer" id="openProfile">Profile</button>
+      </div>
+      <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobile-panel"
+        aria-label="mobile menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-panel" id="mobile-panel">
+
+      <a href="order.html">Order</a>
+      <a href="school.html">Baking School</a>
+      <a href="books.html">Baking Books</a>
+      <div class="mobile-btns container">
+        <button class="main-btn btn-spacer" id="openCart">Cart</button>
+        <button class="main-btn btn-spacer" id="openProfile">Profile</button>
+      </div>
+    </div>
+  </header>
+  <button id="floatingCartBtn" aria-label="Open cart">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M6 6h15l-1.5 9h-12z" stroke="#a192a1" stroke-width="2" />
+      <circle cx="9" cy="20" r="1.5" fill="#a192a1" />
+      <circle cx="18" cy="20" r="1.5" fill="#a192a1" />
+    </svg>
+    <span id="floatingCartCount">0</span>
+  </button>
+  <!-- ===================== HOME / BANNER ===================== -->
+  <section class="banner" id="home" role="region" aria-label="home">
+    <span class="banner-sparkle-decoration" aria-hidden="true"></span>
+    <span class="banner-blob-decoration-0" aria-hidden="true"></span>
+    <div class="container banner-inner">
+      <div>
+        <span class="banner-slogan">Read Bake and Create!</span>
+        <h1 class="banner-headline">Discover the books that bring your baking to life</h1>
+        <p class="banner-subhead">
+          From classic pastries to modern vegan bakes, our hand-picked collection of cookbooks and references
+          will guide you through every recipe with expert tips and stunning photography.
+
+        </p>
+        <div class="banner-btns">
+          <button class="main-btn" onclick="document.getElementById('courses').scrollIntoView({behavior:'smooth'});">
+            Browse Books
+          </button>
+          <a href="#faq">Learn more</a>
+        </div>
+      </div>
+      <div class="images" aria-hidden="true">
+        <div class="banner-image">
+          <img src="/frontend/assets/Books_Page_Images/bookstore_banner_iamage.jpg" alt="baking books and pastries" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== FILTERS + BOOKS ===================== -->
+  <section class="products-section" id="courses" aria-label="Books">
+    <span class="about-blob-decoration-1" aria-hidden="true"></span>
+
+    <div class="container">
+      <div class="producrs-section-header">
+        <h2 class="mb-2" style="margin:0; font-size:clamp(2rem,5vw,3rem);">Our Baking Books</h2>
+        <span class="tag">Fresh titles every season</span>
+      </div>
+
+      <!-- IMPORTANT: keep the same input/select IDs so the existing JS works -->
+      <form class="filters" id="filters" aria-label="Filter books">
+        <div>
+          <label for="q">Search</label>
+          <input type="search" id="q" placeholder="e.g., sourdough, chocolate, vegan" />
+        </div>
+        <div>
+          <!-- The JS reads #level; we show it as Genre -->
+          <label for="level">Genre</label>
+          <select id="level">
+            <option value="">Any genre</option>
+            <option value="Cookbook">Cookbook</option>
+            <option value="Reference">Reference</option>
+            <option value="Kids">Kids</option>
+          </select>
+        </div>
+        <div>
+          <!-- The JS reads #format; we keep it for book format -->
+          <label for="format">Format</label>
+          <select id="format">
+            <option value="">Any format</option>
+            <option value="Hardcover">Hardcover</option>
+            <option value="Paperback">Paperback</option>
+            <option value="eBook">eBook</option>
+            <option value="Audiobook">Audiobook</option>
+          </select>
+        </div>
+        <div>
+          <!-- The JS reads #duration; we treat it as Length -->
+          <label for="duration">Length</label>
+          <select id="duration">
+            <option value="">Any length</option>
+            <option value="Short">&lt; 200 pages</option>
+            <option value="Medium">200–400 pages</option>
+            <option value="Long">400+ pages</option>
+          </select>
+        </div>
+      </form>
+
+      <div class="grid mt-3" id="courseGrid" data-category="Book">
+        <!-- === Books (static, secure: uses data-sku only) === -->
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== FAQ ===================== -->
+  <section class="container mt-4" id="faq" aria-label="FAQ">
+    <h2 style="font-size:clamp(1.8rem,4.5vw,3rem); margin:0 0 .75rem;">
+      Frequently Asked Questions
+    </h2>
+
+    <details>
+      <summary>Do the books include step-by-step photos?</summary>
+      <p>Yes. Most of our titles feature full-color photography and illustrated techniques for clarity and inspiration.
+      </p>
+    </details>
+
+    <details>
+      <summary>Are your books suitable for beginners?</summary>
+      <p>Absolutely. Each book indicates its skill level, from simple home-baking guides to advanced pastry references.
+      </p>
+    </details>
+
+    <details>
+      <summary>Can I get digital editions?</summary>
+      <p>Many books are available as eBooks or audiobooks. Filter by <strong>Format</strong> to find your preferred
+        version.</p>
+    </details>
+
+    <details>
+      <summary>Do you ship internationally?</summary>
+      <p>Yes. We ship worldwide using tracked delivery. Digital editions are available for instant download anywhere.
+      </p>
+    </details>
+
+    <details>
+      <summary>Are the recipes metric or imperial?</summary>
+      <p>All recipes include both metric and imperial measurements, so you can bake confidently wherever you are.</p>
+    </details>
+  </section>
+  <br>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer" role="contentinfo" id="contact">
+    <span class="footer-blob-decoration-3" aria-hidden="true"></span>
+    <span class="footer-blob-decoration-4" aria-hidden="true"></span>
+    <div class="container footer-inner">
+      <div class="footer-top">
+        <div>
+          <a class="footer-brand" href="#" aria-label="TheSweetBakers Co. home"><span
+              class="footer-badge">☼</span>TheSweetBakers Co.</a>
+          <p class="brand-copy">Follow Us on Social Media and be a part of a team that brings smiles and sweetnes to the
+            world</p>
+          <div class="social" aria-label="Social media">
+            <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M22 5.8c-.7.3-1.5.6-2.3.7.8-.5 1.4-1.2 1.7-2.1-.8.5-1.7.8-2.6 1-1.6-1.7-4.5-1.3-5.6.9-.5 1-.4 2.2.2 3.1-3.2-.2-6-1.7-7.9-4.1-1.1 1.9-.6 4.4 1.3 5.7-.6 0-1.2-.2-1.8-.5 0 2.1 1.5 3.9 3.6 4.3-.6.2-1.2.2-1.8.1.5 1.7 2.1 2.9 4 3-1.5 1.2-3.4 1.8-5.3 1.8H2c2 1.3 4.4 2 6.9 2 8.3 0 13-7 12.7-13.2.8-.6 1.5-1.3 2-2.2z" />
+              </svg></a>
+            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-.9a1.1 1.1 0 1 0 0 2.3 1.1 1.1 0 0 0 0-2.3zM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z" />
+              </svg><a href="#" aria-label="Meta">
+                <svg viewBox="0 0 512 512" aria-hidden="true">
+                  <path
+                    d="M344.3 150.2c-28.7 0-53.9 21.2-79.3 57.5-25.4-36.3-50.6-57.5-79.3-57.5-54.8 0-98.4 54.7-98.4 121.7 0 68.1 41.2 117.9 95.5 117.9 28.8 0 54.8-18.6 82.2-61.6 27.4 43 53.4 61.6 82.2 61.6 54.3 0 95.5-49.8 95.5-117.9 0-67-43.6-121.7-98.4-121.7zM183.2 347.4c-28.4 0-51.5-30.7-51.5-75.5 0-43.5 22.1-74.2 51.5-74.2 20.3 0 39.7 19.3 63.3 54.6-23.3 36.8-41.2 95.1-63.3 95.1zm145.6 0c-22.1 0-40-58.3-63.3-95.1 23.6-35.3 43-54.6 63.3-54.6 29.4 0 51.5 30.7 51.5 74.2 0 44.8-23.1 75.5-51.5 75.5z"
+                    fill="currentColor" />
+                </svg>
+              </a>
+          </div>
+        </div>
+        <div class="subscribe-card" aria-labelledby="subscribe-title">
+          <h3 id="subscribe-title" class="subscribe-title">Stay in the loop</h3>
+          <p class="subscribe-text">Monthly updates on new recepies, tips, and sweets.</p>
+          <form class="subscribe-form" action="#" method="post">
+            <div class="subscribe-input-wrap">
+              <label class="subscribe" for="email">Email Address</label>
+              <input class="subscribe-input" id="subscribe" name="email" type="email" placeholder="you@domain.com"
+                required />
+            </div>
+            <button class="main-btn" type="submit" id="subscribe-btn">Subscribe</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-nav-container" aria-label="Footer navigation">
+        <div class="footer-nav-links">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#">Custom Sweets</a></li>
+
+            <li><a href="#">Baking School</a></li>
+            <li><a href="#">Baking Books</a></li>
+            <li><a href="#">Cetaring</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Gallery</a></li>
+            <li><a href="#">Catalog</a></li>
+            <li><a href="#">Recepies</a></li>
+            <li><a href="#">Tutorials</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav-links">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Press</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© <span id="year"></span> TheSweetBaker Co. All rights reserved.</div>
+        <div class="legal">
+          <a href="#">Privacy · </a><a href="#">Terms · </a><a href="#">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- ===================== PROFILE MODAL ===================== -->
+  <div class="profile-backdrop" id="profileModal" aria-hidden="true" role="dialog" aria-labelledby="profileTitle">
+    <section class="profile-dialog" tabindex="-1">
+      <header class="p-head">
+        <div class="brand-badge" aria-hidden="true">👤</div>
+        <div class="p-title" id="profileTitle">Your Account</div>
+        <button class="p-close" id="profileClose" aria-label="Close profile">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" stroke="#a192a1" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </header>
+
+      <div class="p-body" id="profileRoot">
+        <!-- Left nav -->
+        <nav class="p-nav" aria-label="Account sections">
+          <button class="nav-btn" data-panel="account" aria-current="page">
+            <span aria-hidden="true">👤</span> Account
+          </button>
+          <button class="nav-btn" data-panel="security">
+            <span aria-hidden="true">🔒</span> Security
+          </button>
+          <button class="nav-btn" data-panel="orders">
+            <span aria-hidden="true">📦</span> Orders
+          </button>
+          <button class="nav-btn" data-panel="logout" id="logoutBtn">
+            <span aria-hidden="true">🚪</span> Log out
+          </button>
+        </nav>
+
+        <!-- Panels -->
+        <div>
+          <!-- ACCOUNT -->
+          <section class="p-panel" id="panel-account" aria-hidden="false">
+            <div class="avatar">
+              <div class="avatar-badge" id="avatarInitial">🙂</div>
+              <span class="chip">Member since <span id="memberSince">—</span></span>
+            </div>
+
+            <div class="field">
+              <label class="label" for="fullName">Full name</label>
+              <div class="row-inline">
+                <input class="input" id="fullName" placeholder="Alex Blush" autocomplete="name" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="emailP">Email address</label>
+              <div class="row-inline">
+                <input class="input" id="emailP" type="email" placeholder="alex@example.com" autocomplete="email" />
+
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="address">Address</label>
+              <div class="row-inline">
+                <input class="input" id="address" placeholder="Street, City, Country" autocomplete="street-address" />
+
+              </div>
+            </div>
+
+            <div class="actions">
+              <label class="chip" style="width:max-content;">
+                <input type="checkbox" id="marketing" style="accent-color:#b18597; transform: translateY(1px);" />
+                I confirm the provided information
+              </label><br>
+              <button class="main-btn" id="saveProfile">Save changes</button>
+              <button class="main-btn" id="deleteProfile">Delete profile</button>
+            </div>
+          </section>
+
+          <!-- SECURITY -->
+          <section class="p-panel" id="panel-security" aria-hidden="true">
+            <h3 class="p-title" style="font-size:1.05rem; margin:0;">Password & Security</h3>
+            <div class="field">
+              <label class="label" for="currentPwd">Current password</label>
+              <input class="input" id="currentPwd" type="password" placeholder="••••••••"
+                autocomplete="current-password" />
+            </div>
+            <div class="field">
+              <label class="label" for="newPwd">New password</label>
+              <input class="input" id="newPwd" type="password" placeholder="At least 8 characters"
+                autocomplete="new-password" />
+              <div class="strength" aria-hidden="true"><span id="pwdBar"></span></div>
+              <div class="hint" id="pwdHint">Strength: —</div>
+            </div>
+            <div class="field">
+              <label class="label" for="confirmPwd">Confirm new password</label>
+              <input class="input" id="confirmPwd" type="password" placeholder="Repeat new password"
+                autocomplete="new-password" />
+            </div>
+            <div class="actions">
+              <button class="main-btn" id="changePasswordBtn">Change password</button>
+              <button type="button" class="main-btn" id="sendResetEmail">Send reset link</button>
+            </div>
+            <div class="hint">Reset link is sent to the email in your account settings.</div>
+          </section>
+
+          <!-- ORDERS -->
+          <section class="p-panel" id="panel-orders" aria-hidden="true">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:.5rem; flex-wrap:wrap;">
+              <h3 class="p-title" style="font-size:1.05rem; margin:0;">Your orders</h3>
+              <div class="pill-switch" role="tablist" aria-label="Order views">
+                <button class="tab" data-orders-tab="ongoing" aria-pressed="true" role="tab">Ongoing</button>
+                <button class="tab" data-orders-tab="completed" aria-pressed="false" role="tab">Completed</button>
+                <button class="tab" data-orders-tab="canceled" aria-pressed="false" role="tab">Canceled</button>
+              </div>
+            </div>
+
+            <div id="ordersOngoing" class="orders-list" aria-live="polite" style="display:grid; gap:.6rem;">
+              <!-- Populated via JS -->
+            </div>
+            <div id="ordersCompleted" class="orders-list" aria-live="polite" style="display:none; gap:.6rem;">
+              <!-- Populated via JS -->
+            </div>
+            <div id="ordersCanceled" class="orders-list" aria-live="polite" style="display:none; gap:.6rem;">
+              <!-- Populated via JS -->
+            </div>
+          </section>
+
+          <!-- LOGOUT (small confirmation) -->
+          <section class="p-panel" id="panel-logout" aria-hidden="true">
+            <h3 class="p-title" style="font-size:1.05rem; margin:0;">Sign out</h3>
+            <p class="hint">You will be signed out on this device. Your saved cart and profile (demo) will be cleared.
+            </p>
+            <button type="button" class="main-btn" id="confirmLogout">Log out</button>
+          </section>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- ===================== CART MODAL ===================== -->
+  <div class="modal-backdrop" id="cartModal" aria-hidden="true" aria-labelledby="cartTitle" role="dialog">
+    <section class="cart-drawer" tabindex="-1">
+      <header class="cart-head">
+        <div class="brand-badge" aria-hidden="true">🧺</div>
+        <div class="cart-title" id="cartTitle">Your Cart</div>
+        <button class="cart-close-btn" id="closeCart" aria-label="Close basket">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" stroke="#a192a1" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </header>
+      <div class="cart-body">
+        <div>
+          <div class="cart-items" id="items"></div>
+          <div class="empty" id="emptyState" hidden>Looks like your cart is feeling a little empty ✨</div>
+        </div>
+        <aside class="cart-order-summary-container">
+          <h3>Order Summary</h3>
+          <div class="cart-subtotal"><span>Subtotal</span><strong id="subtotal">€0.00</strong></div>
+          <div class="cart-order-shipping-options-container"><span>Shipping</span>
+            <select class="cart-shipping-options" id="shipping">
+              <option value="0">Free – Pickup (0€)</option>
+              <option value="4.50">Standard (4.50€)</option>
+              <option value="9.90">Express (9.90€)</option>
+            </select>
+          </div>
+          <div class="cart-order-shipping-options-container"><span>Payment</span>
+            <select class="cart-shipping-options" id="paymentMethod">
+              <option value="card">Card</option>
+              <option value="cash">Cash</option>
+            </select>
+          </div>
+          <div class="cart-promo-code-container">
+            <input id="promo" type="text" placeholder="Promo code" aria-label="Promo code">
+            <button class="main-btn" id="applyPromo">Apply</button>
+          </div>
+          <div class="cart-discount-display"><span>Discount</span><strong id="discount">– €0.00</strong></div>
+          <div class="cart-divider-discount-total"></div>
+          <div class="cart-total-display" style="font-size:1.1rem; font-weight:800;"><span>Total</span><strong
+              id="total">€0.00</strong>
+          </div>
+          <div class="cart-pay-btn">
+            <button class="main-btn btn-lg" id="openPay">Pay Now</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </div>
+  <!-- ===================== PAYMENT MODAL ===================== -->
+  <div class="pay-modal-backdrop" id="payModal" aria-hidden="true" role="dialog" aria-labelledby="payTitle">
+    <section class="payment-modal" tabindex="-1">
+      <header class="payment-modal-head">
+        <div class="brand-badge" aria-hidden="true"
+          style="width:34px;height:34px;border-radius:.75rem;background:#f9c4d2;border:2px solid #b18597;box-shadow:0 .35em 0 0 #ffe3e2;display:grid;place-items:center;color:#a192a1;">
+          💳</div>
+        <div class="payment-modal-title" id="payTitle">Secure Payment</div>
+        <button class="payment-modal-close-btn" id="payClose" aria-label="Close payment">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" stroke="#a192a1" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </header>
+      <form class="payment-modal-body" id="payForm" novalidate>
+        <div class="secure-badge"><span class="dot" aria-hidden="true"></span> 256‑bit SSL • PSD2/3‑D Secure (demo)
+        </div>
+        <div class="payment-modal-card-name-input">
+          <label class="label" for="cardName">Name on card</label>
+          <input class="input" id="cardName" autocomplete="cc-name" placeholder="Alex Blush" required />
+          <div class="error" data-error-for="cardName" hidden>Please enter the cardholder name.</div>
+        </div>
+        <div class="payment-modal-card-number-input">
+          <label class="label" for="cardNumber">Card number</label>
+          <input class="input" id="cardNumber" inputmode="numeric" autocomplete="cc-number"
+            placeholder="4242 4242 4242 4242" maxlength="19" required />
+          <div class="error" data-error-for="cardNumber" hidden>Enter a valid card number.</div>
+        </div>
+        <div class="inline">
+          <div class="payment-modal-card-expiry-input">
+            <label class="label" for="exp">Expiry (MM/YY)</label>
+            <input class="input" id="exp" inputmode="numeric" autocomplete="cc-exp" placeholder="12/28" maxlength="5"
+              required />
+            <div class="error" data-error-for="exp" hidden>Enter a valid future date.</div>
+          </div>
+          <div class="payment-modal-card-cvc-input">
+            <label class="label" for="cvc">CVC</label>
+            <input class="input" id="cvc" inputmode="numeric" autocomplete="cc-csc" placeholder="123" maxlength="4"
+              required />
+            <div class="error" data-error-for="cvc" hidden>Enter a valid CVC.</div>
+          </div>
+        </div>
+        <div class="inline">
+          <div class="payment-modal-receipt-email-input">
+            <label class="label" for="email">Receipt email</label>
+            <input class="input" id="email" type="email" placeholder="alex@example.com" autocomplete="email" required />
+            <div class="error" data-error-for="email" hidden>Enter a valid email.</div>
+          </div>
+          <div class="payment-modal-address-input">
+            <label class="label" for="zip">Postal code</label>
+            <input class="input" id="zip" inputmode="numeric" autocomplete="postal-code" placeholder="10115"
+              maxlength="10" required />
+            <div class="error" data-error-for="zip" hidden>Enter a valid code.</div>
+          </div>
+        </div>
+        <div class="tertiary">By confirming, you authorize a one‑time charge. No card data is stored (demo).</div>
+        <div class="pay-actions">
+          <button class="btn-primary" id="confirmPay"><span id="confirmLabel">Pay</span> <span
+              id="confirmAmount">€0.00</span></button>
+          <button type="button" class="btn-primary btn-secondary" id="altWallet">Apple/Google Pay (demo)</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <script src="/frontend/js/toast.js"></script>
+  <script src="/frontend/js/login.js"></script>
+  <script src="/frontend/js/cartModal.js"></script>
+  <script src="/frontend/js/courses.js"></script>
+  <script src="/frontend/js/footer.js"></script>
+  <script src="/frontend/js/navbar.js"></script>
+  <script src="/frontend/js/profileModal.js"></script>
+
+</body>
+
+</html>

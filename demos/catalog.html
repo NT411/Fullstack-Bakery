@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sweet Catalog — Product Menu</title>
+  <style>
+    /* ========== Base (kept in your style) ========== */
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: clamp(16px, 0.9vw + 12px, 20px);
+    }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #fdf6f8;
+      color: #8d7b8d;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    :where(a, button, input, .brand, .eyebrow):focus-visible {
+      outline: 3px dashed #b18597;
+      outline-offset: 3px;
+    }
+
+    /* Palette helpers */
+    :root {
+      --ink: #8d7b8d;
+      --ink-2: #9a879a;
+      --border: #b18597;
+      --card: #fff0f0;
+      --accent: #f9c4d2;
+      --bg: #fdf6f8;
+      --shadow: rgba(177, 133, 151, .18);
+    }
+
+    /* Container */
+    .container {
+      max-width: min(90rem, 100% - 4rem);
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    /* Buttons */
+    button {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      outline: 0;
+      border: 0;
+      vertical-align: middle;
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 15px;
+    }
+
+    .learn-more {
+      border: 2px solid var(--border);
+      border-radius: .75em;
+      font-weight: 600;
+      color: #a192a1;
+      text-transform: uppercase;
+      padding: 1.1em 1.8em;
+      background: #fff0f0;
+      transition: .15s;
+      box-shadow: 0 .6em 0 0 #ffe3e2;
+    }
+
+    .learn-more:hover {
+      background: #ffe9e9;
+    }
+
+    /* Navbar (shown on screen only) */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #fff0f0;
+      border-bottom: 2px solid var(--border);
+      box-shadow: 0 .5em 1em rgba(177, 133, 151, .12);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: .75rem 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      text-decoration: none;
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: .3px;
+    }
+
+    .brand-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: .75em;
+      background: var(--accent);
+      border: 2px solid var(--border);
+      box-shadow: 0 .35em 0 0 #ffe3e2;
+      display: grid;
+      place-items: center;
+      font-size: .9rem;
+      color: #a192a1;
+    }
+
+    .spacer {
+      flex: 1 1 auto;
+    }
+
+    /* Hero */
+    .banner {
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(1200px 600px at 10% 10%, #ffe3e8 0%, #fff0f0 40%, #fdf6f8 100%);
+      border-bottom: 2px solid var(--border);
+    }
+
+    .banner-inner {
+      display: grid;
+      gap: clamp(1.5rem, 4vw, 3rem);
+      align-items: center;
+      padding: clamp(2rem, 4.5vw, 5rem) 0;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: .8rem;
+      color: #a192a1;
+      background: #fff0f0;
+      border: 2px solid var(--border);
+      border-radius: .75rem;
+      padding: .4rem .7rem;
+      box-shadow: 0 .45em 0 0 #ffe3e2;
+    }
+
+    .headline {
+      margin: 1rem 0 .5rem;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.1;
+      color: var(--ink);
+    }
+
+    .subhead {
+      margin: 0 0 1rem;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      line-height: 1.6;
+      color: var(--ink-2);
+    }
+
+    /* Menu sections */
+    .menu {
+      padding: clamp(1.5rem, 4vw, 3rem) 0;
+    }
+
+    .controls {
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: .5rem 0 1rem;
+    }
+
+    .search {
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .search input {
+      width: 100%;
+      background: var(--card);
+      color: var(--ink);
+      border: 2px solid var(--border);
+      border-radius: .75rem;
+      padding: .9rem 1rem;
+      font: inherit;
+      box-shadow: 0 .45em 0 0 #ffe3e2;
+    }
+
+    .menu-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 880px) {
+      .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .menu-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .section {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 1rem;
+      padding: 1rem;
+      box-shadow: 0 .8em 1.5em var(--shadow);
+      break-inside: avoid;
+    }
+
+    .section h3 {
+      margin: .1rem 0 .6rem;
+      color: #a192a1;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+
+    .chip {
+      display: inline-grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: .6rem;
+      background: var(--accent);
+      border: 2px solid var(--border);
+      box-shadow: 0 .35em 0 0 #ffe3e2;
+      font-size: .9rem;
+      color: #a192a1;
+    }
+
+    /* Menu list rows */
+    .list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: .35rem;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: .5rem;
+      align-items: start;
+      padding: .45rem .5rem;
+      border-radius: .6rem;
+      border: 2px solid transparent;
+    }
+
+    .row:hover {
+      background: #ffe9e9;
+      border-color: var(--border);
+    }
+
+    .name {
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .desc {
+      font-size: .95rem;
+      color: var(--ink-2);
+    }
+
+    .price {
+      min-width: 72px;
+      text-align: right;
+      font-weight: 700;
+      color: #a192a1;
+    }
+
+    .dots {
+      flex: 1;
+      border-bottom: 2px dotted #d7b3c2;
+      margin: 0 .4rem;
+      height: 1.1rem;
+    }
+
+    /* Print styles */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 14mm;
+      }
+
+      :root {
+        --shadow: rgba(0, 0, 0, 0);
+      }
+
+      .navbar,
+      .print-hide {
+        display: none !important;
+      }
+
+      body {
+        background: #fff;
+        color: #000;
+      }
+
+      .section {
+        box-shadow: none;
+        background: #fff;
+        border-color: #c8b0bb;
+      }
+
+      .chip {
+        box-shadow: none;
+      }
+
+      a {
+        text-decoration: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <nav class="container" style="padding:1.25rem 0 2rem; color:var(--ink-2);">
+    <div
+      style="display:flex; gap:.75rem; flex-wrap:wrap; align-items:center; justify-content:space-between; border-bottom:2px dashed var(--border); padding-bottom:1rem;">
+      <div>© 2025 Sweet Catalog — Menu v1.0</div>
+      <div class="print-hide"><button class="learn-more" onclick="window.print()">Print This Menu</button></div>
+    </div>
+  </nav>
+
+  <!-- Menu Sections -->
+  <main class="menu">
+    <div class="container menu-grid" id="grid">
+      <!-- Cookies & Biscuits -->
+      <section class="section" data-tags="cookies biscuits baked">
+        <h3><span class="chip">🍪</span> Cookies &amp; Biscuits</h3>
+        <ul class="list">
+          <li class="row">
+            <div>
+              <div class="name">Chocolate Chip</div>
+              <div class="desc">Buttery cookie dotted with chocolate morsels.</div>
+            </div>
+            <div class="price">€ 2.50</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Shortbread</div>
+              <div class="desc">Rich, crumbly classic with butter and sugar.</div>
+            </div>
+            <div class="price">€ 2.20</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Oatmeal Raisin</div>
+              <div class="desc">Chewy oats, warm spice, sweet raisins.</div>
+            </div>
+            <div class="price">€ 2.40</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Macaron (French)</div>
+              <div class="desc">Almond meringue shells with flavored ganache.</div>
+            </div>
+            <div class="price">€ 3.20</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Biscotti</div>
+              <div class="desc">Twice-baked almond biscuit; perfect for dipping.</div>
+            </div>
+            <div class="price">€ 2.80</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Speculoos</div>
+              <div class="desc">Crisp spiced biscuit with caramelized notes.</div>
+            </div>
+            <div class="price">€ 2.30</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Gingerbread</div>
+              <div class="desc">Molasses and ginger spice, tender or snappy.</div>
+            </div>
+            <div class="price">€ 2.60</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Amaretti</div>
+              <div class="desc">Chewy almond cookies, Italian café favorite.</div>
+            </div>
+            <div class="price">€ 3.00</div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Cakes -->
+      <section class="section" data-tags="cakes sponge butter chiffon cheesecake layer">
+        <h3><span class="chip">🍰</span> Cakes</h3>
+        <ul class="list">
+          <li class="row">
+            <div>
+              <div class="name">Sponge Cake</div>
+              <div class="desc">Airy base for layers and fruit.</div>
+            </div>
+            <div class="price">€ 4.50</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Butter Cake</div>
+              <div class="desc">Tender crumb with rich butter flavor.</div>
+            </div>
+            <div class="price">€ 4.80</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Red Velvet</div>
+              <div class="desc">Cocoa-tinged layers, cream cheese frosting.</div>
+            </div>
+            <div class="price">€ 5.20</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Carrot Cake</div>
+              <div class="desc">Moist carrot crumb, warm spice, walnuts.</div>
+            </div>
+            <div class="price">€ 5.00</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Cheesecake</div>
+              <div class="desc">Baked or no-bake, creamy and tangy.</div>
+            </div>
+            <div class="price">€ 5.50</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Black Forest</div>
+              <div class="desc">Chocolate, cherries, Kirsch, whipped cream.</div>
+            </div>
+            <div class="price">€ 5.40</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Tiramisu</div>
+              <div class="desc">Coffee-soaked layers with mascarpone cream.</div>
+            </div>
+            <div class="price">€ 5.30</div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Pastries -->
+      <section class="section" data-tags="pastry laminated choux puff viennoiserie">
+        <h3><span class="chip">🥐</span> Pastries</h3>
+        <ul class="list">
+          <li class="row">
+            <div>
+              <div class="name">Croissant</div>
+              <div class="desc">Flaky, buttery layers; classic French bake.</div>
+            </div>
+            <div class="price">€ 2.70</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Pain au Chocolat</div>
+              <div class="desc">Croissant dough folded around dark chocolate.</div>
+            </div>
+            <div class="price">€ 2.90</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Danish</div>
+              <div class="desc">Laminated pastry with custard or fruit.</div>
+            </div>
+            <div class="price">€ 3.00</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Éclair</div>
+              <div class="desc">Choux shell filled with cream, glazed top.</div>
+            </div>
+            <div class="price">€ 3.20</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Churros</div>
+              <div class="desc">Crisp ridged fritter, cinnamon sugar.</div>
+            </div>
+            <div class="price">€ 2.80</div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Pies & Tarts -->
+      <section class="section" data-tags="pies tarts custard fruit flan">
+        <h3><span class="chip">🥧</span> Pies &amp; Tarts</h3>
+        <ul class="list">
+          <li class="row">
+            <div>
+              <div class="name">Apple Pie</div>
+              <div class="desc">Buttery crust, spiced apples, lattice top.</div>
+            </div>
+            <div class="price">€ 4.20</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Lemon Meringue</div>
+              <div class="desc">Zesty curd, pillowy meringue cap.</div>
+            </div>
+            <div class="price">€ 4.60</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Pastéis de Nata</div>
+              <div class="desc">Portuguese custard tarts with blistered tops.</div>
+            </div>
+            <div class="price">€ 2.90</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Frangipane Tart</div>
+              <div class="desc">Almond cream base, pears or berries.</div>
+            </div>
+            <div class="price">€ 4.80</div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Doughnuts & Fried -->
+      <section class="section" data-tags="doughnut donut fried fritter beignet">
+        <h3><span class="chip">🍩</span> Doughnuts &amp; Fried</h3>
+        <ul class="list">
+          <li class="row">
+            <div>
+              <div class="name">Yeast Doughnut</div>
+              <div class="desc">Light, ring or filled; glazed or sugared.</div>
+            </div>
+            <div class="price">€ 2.50</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Cake Doughnut</div>
+              <div class="desc">Tender crumb, classic sugar coat.</div>
+            </div>
+            <div class="price">€ 2.40</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Berliner / Pączki</div>
+              <div class="desc">Pillowy fried buns with jam or cream.</div>
+            </div>
+            <div class="price">€ 2.80</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Beignet</div>
+              <div class="desc">New-Orleans style square pillows, sugar snow.</div>
+            </div>
+            <div class="price">€ 3.00</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Jalebi</div>
+              <div class="desc">Crisp syrup-soaked spirals, saffron notes.</div>
+            </div>
+            <div class="price">€ 2.30</div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Custards & Puddings -->
+      <section class="section" data-tags="custard pudding mousse cream set">
+        <h3><span class="chip">🍮</span> Custards &amp; Puddings</h3>
+        <ul class="list">
+          <li class="row">
+            <div>
+              <div class="name">Crème Brûlée</div>
+              <div class="desc">Silky custard with caramel glass top.</div>
+            </div>
+            <div class="price">€ 4.80</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Panna Cotta</div>
+              <div class="desc">Lightly set cream, fruit coulis.</div>
+            </div>
+            <div class="price">€ 4.60</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Rice Pudding</div>
+              <div class="desc">Comforting, creamy, spiced or citrus-zest.</div>
+            </div>
+            <div class="price">€ 3.50</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Chocolate Mousse</div>
+              <div class="desc">Whipped, airy chocolate cream.</div>
+            </div>
+            <div class="price">€ 4.20</div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Frozen Desserts -->
+      <section class="section" data-tags="frozen ice cream gelato sorbet granita kakigori kulfi">
+        <h3><span class="chip">🍨</span> Frozen Desserts</h3>
+        <ul class="list">
+          <li class="row">
+            <div>
+              <div class="name">Ice Cream</div>
+              <div class="desc">Classic churned dairy, many flavors.</div>
+            </div>
+            <div class="price">€ 3.00</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Gelato</div>
+              <div class="desc">Dense Italian style, intense flavor.</div>
+            </div>
+            <div class="price">€ 3.20</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Sorbet</div>
+              <div class="desc">Fruit-forward, dairy-free refreshment.</div>
+            </div>
+            <div class="price">€ 2.90</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Kulfi</div>
+              <div class="desc">Indian slow-set ice cream, cardamom/pistachio.</div>
+            </div>
+            <div class="price">€ 3.10</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Shaved Ice / Kakigōri</div>
+              <div class="desc">Feathery ice with syrups & condensed milk.</div>
+            </div>
+            <div class="price">€ 2.70</div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Chocolates & Confections -->
+      <section class="section" data-tags="chocolate candy truffle fudge caramel brittle nougat">
+        <h3><span class="chip">🍫</span> Chocolates &amp; Confections</h3>
+        <ul class="list">
+          <li class="row">
+            <div>
+              <div class="name">Chocolate Truffles</div>
+              <div class="desc">Ganache centers, cocoa or nut coatings.</div>
+            </div>
+            <div class="price">€ 3.80</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Fudge</div>
+              <div class="desc">Melt-in-mouth squares; chocolate/vanilla/maple.</div>
+            </div>
+            <div class="price">€ 3.50</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Caramel / Toffee</div>
+              <div class="desc">Slow-cooked sugar & cream/butter.</div>
+            </div>
+            <div class="price">€ 3.00</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Brittle</div>
+              <div class="desc">Crunchy caramel sheet with nuts or seeds.</div>
+            </div>
+            <div class="price">€ 3.20</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Nougat / Torrone</div>
+              <div class="desc">Honey-whipped with nuts and fruit.</div>
+            </div>
+            <div class="price">€ 3.60</div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Bars & Squares -->
+      <section class="section" data-tags="bars brownies blondies squares">
+        <h3><span class="chip">🧁</span> Bars, Brownies &amp; Squares</h3>
+        <ul class="list">
+          <li class="row">
+            <div>
+              <div class="name">Brownies</div>
+              <div class="desc">Fudgy or cakey chocolate squares.</div>
+            </div>
+            <div class="price">€ 3.40</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Blondies</div>
+              <div class="desc">Vanilla-butter bars with caramel notes.</div>
+            </div>
+            <div class="price">€ 3.30</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Lemon Bars</div>
+              <div class="desc">Tangy curd on shortbread base.</div>
+            </div>
+            <div class="price">€ 3.50</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Millionaire’s Shortbread</div>
+              <div class="desc">Shortbread, caramel layer, chocolate cap.</div>
+            </div>
+            <div class="price">€ 3.80</div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Breakfast Sweets -->
+      <section class="section" data-tags="breakfast pancake waffle crepe cinnamon roll">
+        <h3><span class="chip">🥞</span> Breakfast Sweets</h3>
+        <ul class="list">
+          <li class="row">
+            <div>
+              <div class="name">Pancakes</div>
+              <div class="desc">Fluffy stacks with syrup or fruit.</div>
+            </div>
+            <div class="price">€ 4.00</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Waffles</div>
+              <div class="desc">Crisp grid, holds toppings perfectly.</div>
+            </div>
+            <div class="price">€ 4.20</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Crêpes</div>
+              <div class="desc">Thin French pancakes; lemon sugar or Nutella.</div>
+            </div>
+            <div class="price">€ 3.80</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Cinnamon Rolls</div>
+              <div class="desc">Spiral buns with cream cheese icing.</div>
+            </div>
+            <div class="price">€ 4.30</div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Global & Regional Classics -->
+      <section class="section" data-tags="regional global indian turkish arabic japanese latin african european">
+        <h3><span class="chip">🌍</span> Global &amp; Regional Classics</h3>
+        <ul class="list">
+          <li class="row">
+            <div>
+              <div class="name">Baklava</div>
+              <div class="desc">Flaky nuts & syrup pastry (Turkey/Levant).</div>
+            </div>
+            <div class="price">€ 3.80</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Knafeh</div>
+              <div class="desc">Shredded phyllo or semolina, cheese, syrup.</div>
+            </div>
+            <div class="price">€ 4.50</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Gulab Jamun</div>
+              <div class="desc">Milk-solids dumplings soaked in rose syrup.</div>
+            </div>
+            <div class="price">€ 3.20</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Rasmalai</div>
+              <div class="desc">Cottage-cheese patties in saffron milk.</div>
+            </div>
+            <div class="price">€ 3.60</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Mochi / Daifuku</div>
+              <div class="desc">Sweet glutinous rice cakes with fillings.</div>
+            </div>
+            <div class="price">€ 2.90</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Egg Tart (HK/Macau)</div>
+              <div class="desc">Buttery cups with silky egg custard.</div>
+            </div>
+            <div class="price">€ 2.80</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Churros con Chocolate</div>
+              <div class="desc">Spain’s crispy sticks, thick hot chocolate.</div>
+            </div>
+            <div class="price">€ 4.00</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Tres Leches</div>
+              <div class="desc">Soaked sponge with three milks.</div>
+            </div>
+            <div class="price">€ 4.60</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Brigadeiro</div>
+              <div class="desc">Brazilian chocolate fudge bonbons.</div>
+            </div>
+            <div class="price">€ 3.00</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Malva Pudding</div>
+              <div class="desc">South African apricot-tinged sponge pudding.</div>
+            </div>
+            <div class="price">€ 4.20</div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Specialty Diet -->
+      <section class="section" data-tags="vegan gluten-free keto sugar-free">
+        <h3><span class="chip">🌿</span> Specialty Diet</h3>
+        <ul class="list">
+          <li class="row">
+            <div>
+              <div class="name">Vegan Cheesecake</div>
+              <div class="desc">Cashew or tofu base, dairy-free creaminess.</div>
+            </div>
+            <div class="price">€ 5.00</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Gluten-Free Brownie</div>
+              <div class="desc">Rich chocolate with almond/rice flour.</div>
+            </div>
+            <div class="price">€ 3.60</div>
+          </li>
+          <li class="row">
+            <div>
+              <div class="name">Sugar-Free Ice Cream</div>
+              <div class="desc">Sweetened with erythritol/stevia.</div>
+            </div>
+            <div class="price">€ 3.20</div>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+
+
+
+  <script>
+    function filterMenu() {
+      const q = document.getElementById('search').value.trim().toLowerCase();
+      const cards = document.querySelectorAll('#grid .section');
+      cards.forEach(card => {
+        if (!q) { card.style.display = ''; return; }
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(q) ? '' : 'none';
+      });
+    }
+    function clearSearch() { const i = document.getElementById('search'); i.value = ''; filterMenu(); i.focus(); }
+  </script>
+</body>
+
+</html>

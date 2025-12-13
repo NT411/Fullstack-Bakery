@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Sweet Bakers</title>
+  <link rel="stylesheet" href="/frontend/css/styles.css">
+  <link rel="stylesheet" href="/frontend/css/contactModal.css">
+  <link rel="stylesheet" href="/frontend/css/buttons.css">
+  <link rel="stylesheet" href="/frontend/css/navbar.css">
+  <link rel="stylesheet" href="/frontend/css/cards.css">
+  <link rel="stylesheet" href="/frontend/css/footer.css">
+  <link rel="stylesheet" href="/frontend/css/about.css">
+  <link rel="stylesheet" href="/frontend/css/banner.css">
+  <link rel="stylesheet" href="/frontend/css/images.css">
+  <link rel="stylesheet" href="/frontend/css/login.css">
+  <link rel="stylesheet" href="/frontend/css/decorations.css">
+  <link rel="stylesheet" href="/frontend/css/cartModal.css">
+</head>
+
+<body>
+  <!-- ===================== NAVBAR ===================== -->
+  <header class="navbar" role="banner">
+    <div class="container nav-inner">
+      <a href="#" class="brand"><span class="brand-badge">☼</span>TheSweetBakers Co.</a>
+      <div class="spacer"></div>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Social</a>
+      </nav>
+      <div class="nav-btns">
+        <button class="main-btn btn-spacer" data-open-modal data-target="login">Login</button>
+        <button class="main-btn btn-spacer" data-open-modal data-target="register">Register</button>
+      </div>
+      <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobile-panel"
+        aria-label="mobile menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-panel" id="mobile-panel">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Social</a>
+      <div class="mobile-btns container">
+        <button class="main-btn btn-spacer" data-open-modal data-target="login">Login</button>
+        <button class="main-btn btn-spacer" data-open-modal data-target="register">Register</button>
+      </div>
+    </div>
+  </header>
+  <!-- ===================== HOME / BANNER ===================== -->
+  <section class="banner" id="home" role="region" aria-label="home">
+    <span class="banner-sparkle-decoration" aria-hidden="true"></span>
+    <span class="banner-blob-decoration-0" aria-hidden="true"></span>
+    <div class="container banner-inner">
+      <div>
+        <span class="banner-slogan">Baking With Love</span>
+        <h1 class="banner-headline">Make your special day even more spcial with something sweet</h1>
+        <p class="banner-subhead">
+          We are a custom bakery which focuses on special baking projects each and every one of our sweets is different
+          for the last.
+          We always add something new to create something spacial.
+        </p>
+        <div class="banner-btns">
+          <button class="main-btn btn-spacer" data-contact-pastel-open>Contact Us</button>
+          <a href="#services">Our Services</a>
+        </div>
+      </div>
+      <div class="images" aria-hidden="true">
+        <div class="banner-image">
+          <img src="/frontend/assets/Main_Page_Images/main_page_banner_image.jpg" alt="sweets" />
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+  <!-- ===================== ABOUT ===================== -->
+  <section class="about" id="about">
+    <span class="about-blob-decoration-1" aria-hidden="true"></span>
+    <span class="about-blob-decoration-2" aria-hidden="true"></span>
+    <div class="container about-inner">
+      <div class="about-text">
+        <h2>What Do We Bake</h2>
+        <p>
+          We specialise in custom sweets by request of the client each project is different but here is what we can
+          custiomize for you.<br><br>
+          Cakes & Cupcakes<br>
+          Pies, Tarts & Pastries<br>
+          Custards, Puddings & Creamy Desserts<br>
+          Sweet Breads & Rolls<br>
+          Miscellaneous Sweets<br>
+          Frozen Desserts<br>
+          Fried & Dough-based Sweets<br>
+          Candies & Confections<br>
+          Cookies & Biscuits
+        </p>
+        <p>
+          Our team blends art and technology to build and design sweetnes that comfort as much as it inspire.
+        </p>
+        <button class="main-btn" id="catalog">Download Catalog</button>
+      </div>
+      <div class="images" aria-hidden="true">
+        <div class="about-image">
+          <img src="/frontend/assets/Main_Page_Images/main_page_about_image.jpg" alt="sweets" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SERVICES CARD ===================== -->
+  <section class="section-services" id="services">
+    <div class="container">
+      <div class="services-card">
+        <h3>Bakery Order</h3>
+        <p>From classic layers to custom
+          designs, every cake we bake will be as special as you are.
+          Browse categories, track orders, and check out in a few clicks.</p>
+        <button class="main-btn" id="btn-custom" data-open-modal data-target="login">Order Now</button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="services-card">
+        <h3>Baking School</h3>
+        <p>We belive in that sweet moments must be sheared and this is why you can explore our baking tutorials on how
+          to make cackes cockies frozen sweets and more</p>
+        <button class="main-btn" id="btn-school" data-open-modal data-target="login">Learn More</button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="services-card">
+        <h3>Baking Books</h3>
+        <p>We belive in that sweet moments must be sheared and this is why you can explore our baking tutorials on how
+          to make cackes cockies frozen sweets and more</p>
+        <button class="main-btn" id="btn-books" data-open-modal data-target="login">Learn More</button>
+      </div>
+    </div>
+  </section>
+  <br><br>
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer" role="contentinfo" id="contact">
+    <span class="footer-blob-decoration-3" aria-hidden="true"></span>
+    <span class="footer-blob-decoration-4" aria-hidden="true"></span>
+    <div class="container footer-inner">
+      <div class="footer-top">
+        <div>
+          <a class="footer-brand" href="#" aria-label="TheSweetBakers Co. home"><span
+              class="footer-badge">☼</span>TheSweetBakers Co.</a>
+          <p class="brand-copy">Follow Us on Social Media and be a part of a team that brings smiles and sweetnes to the
+            world</p>
+          <div class="social" aria-label="Social media">
+            <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M22 5.8c-.7.3-1.5.6-2.3.7.8-.5 1.4-1.2 1.7-2.1-.8.5-1.7.8-2.6 1-1.6-1.7-4.5-1.3-5.6.9-.5 1-.4 2.2.2 3.1-3.2-.2-6-1.7-7.9-4.1-1.1 1.9-.6 4.4 1.3 5.7-.6 0-1.2-.2-1.8-.5 0 2.1 1.5 3.9 3.6 4.3-.6.2-1.2.2-1.8.1.5 1.7 2.1 2.9 4 3-1.5 1.2-3.4 1.8-5.3 1.8H2c2 1.3 4.4 2 6.9 2 8.3 0 13-7 12.7-13.2.8-.6 1.5-1.3 2-2.2z" />
+              </svg></a>
+            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-.9a1.1 1.1 0 1 0 0 2.3 1.1 1.1 0 0 0 0-2.3zM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z" />
+              </svg><a href="#" aria-label="Meta">
+                <svg viewBox="0 0 512 512" aria-hidden="true">
+                  <path
+                    d="M344.3 150.2c-28.7 0-53.9 21.2-79.3 57.5-25.4-36.3-50.6-57.5-79.3-57.5-54.8 0-98.4 54.7-98.4 121.7 0 68.1 41.2 117.9 95.5 117.9 28.8 0 54.8-18.6 82.2-61.6 27.4 43 53.4 61.6 82.2 61.6 54.3 0 95.5-49.8 95.5-117.9 0-67-43.6-121.7-98.4-121.7zM183.2 347.4c-28.4 0-51.5-30.7-51.5-75.5 0-43.5 22.1-74.2 51.5-74.2 20.3 0 39.7 19.3 63.3 54.6-23.3 36.8-41.2 95.1-63.3 95.1zm145.6 0c-22.1 0-40-58.3-63.3-95.1 23.6-35.3 43-54.6 63.3-54.6 29.4 0 51.5 30.7 51.5 74.2 0 44.8-23.1 75.5-51.5 75.5z"
+                    fill="currentColor" />
+                </svg>
+              </a>
+          </div>
+        </div>
+        <div class="subscribe-card" aria-labelledby="subscribe-title">
+          <h3 id="subscribe-title" class="subscribe-title">Stay in the loop</h3>
+          <p class="subscribe-text">Monthly updates on new recepies, tips, and sweets.</p>
+          <form class="subscribe-form" action="#" method="post">
+            <div class="subscribe-input-wrap">
+              <label class="subscribe" for="email">Email Address</label>
+              <input class="subscribe-input" id="subscribe" name="email" type="email" placeholder="you@domain.com"
+                required />
+            </div>
+            <button class="main-btn" type="submit" id="subscribe-btn">Subscribe</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-nav-container" aria-label="Footer navigation">
+        <div class="footer-nav-links">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#">Custom Sweets</a></li>
+
+            <li><a href="#">Baking School</a></li>
+            <li><a href="#">Baking Books</a></li>
+            <li><a href="#">Cetaring</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Gallery</a></li>
+            <li><a href="#">Catalog</a></li>
+            <li><a href="#">Recepies</a></li>
+            <li><a href="#">Tutorials</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav-links">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Press</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© <span id="year"></span> TheSweetBaker Co. All rights reserved.</div>
+        <div class="legal">
+          <a href="#">Privacy · </a><a href="#">Terms · </a><a href="#">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================== LOGIN MODAL ===================== -->
+  <div class="global-main-page-modal" id="modal-login" role="dialog" aria-modal="true"
+    aria-labelledby="modal-login-title">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-login-title">Welcome back</div>
+        <button class="modal-close" data-close-modal aria-label="Close">✕</button>
+      </div>
+      <form class="modal-body" action="#" method="post" novalidate>
+        <div class="field">
+          <label for="login-email">Email</label>
+          <input id="login-email" name="email" type="email" placeholder="you@domain.com" required>
+        </div>
+        <div class="field">
+          <label for="login-pass">Password</label>
+          <input id="login-pass" name="password" type="password" placeholder="••••••••" required>
+        </div>
+        <div class="link-row">
+          <label class="muted"><input type="checkbox" name="remember"> Remember me</label>
+          <a href="#" class="soft-link" data-open-modal data-target="reset">Forgot password?</a>
+        </div>
+        <div class="actions">
+          <button class="main-btn btn-block" type="submit">Login</button>
+          <p class="muted">New here? <a href="#" class="soft-link" data-open-modal data-target="register">Create an
+              account</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- ===================== REGISTER MODAL ===================== -->
+  <div class="global-main-page-modal" id="modal-register" role="dialog" aria-modal="true"
+    aria-labelledby="modal-register-title">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-register-title">Create Account</h2>
+        <button class="modal-close" data-close-modal aria-label="Close">✕</button>
+      </div>
+
+      <form class="modal-body" action="#" method="post" novalidate>
+        <!-- Full Name -->
+        <div class="field">
+          <label for="reg-name">Full Name</label>
+          <input id="reg-name" name="full_name" type="text" placeholder="Jane Sweet" required>
+        </div>
+
+        <!-- Email with Send Code -->
+        <div class="field email-field">
+          <label for="reg-email">Email</label>
+          <div class="input-group">
+            <input id="reg-email" name="email" type="email" placeholder="you@domain.com" required>
+            <br><br>
+            <a type="button" class="soft-link" id="send-code-btn">Send Code</a>
+          </div>
+        </div>
+
+        <!-- Email Confirmation Code -->
+        <div class="field">
+          <label for="reg-code">Email Confirmation Code</label>
+          <input id="reg-code" name="email_code" type="text" placeholder="Enter confirmation code" required>
+        </div>
+
+        <!-- Password -->
+        <div class="field">
+          <label for="reg-pass">Password</label>
+          <input id="reg-pass" name="password" type="password" placeholder="Create a password" required minlength="8">
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="field">
+          <label for="reg-pass-confirm">Confirm Password</label>
+          <input id="reg-pass-confirm" name="confirm_password" type="password" placeholder="Re-enter your password"
+            required minlength="8">
+        </div>
+
+        <!-- Actions -->
+        <div class="actions">
+          <button class="main-btn btn-block" type="submit">Register</button>
+          <p class="muted">
+            Already have an account?
+            <a href="#" class="soft-link" data-open-modal data-target="login">Login</a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================== PASS RESET MODAL ===================== -->
+  <div class="global-main-page-modal" id="modal-reset" role="dialog" aria-modal="true"
+    aria-labelledby="modal-reset-title">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-reset-title">Reset password</div> <button class="modal-close"
+          data-close-modal aria-label="Close">✕</button>
+      </div>
+      <form class="modal-body" action="#" method="post" novalidate>
+        <div class="field"> <label for="reset-email">Email</label> <input id="reset-email" name="email" type="email"
+            placeholder="you@domain.com" required> </div>
+        <div class="actions"> <button class="main-btn btn-block" type="submit">Send reset link</button>
+          <p class="muted"><a href="#" class="soft-link" data-open-modal data-target="login">Back to login</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======= Contact Us (Pastel) ======= -->
+  <div id="contact-pastel" class="pc-overlay" aria-hidden="true">
+    <div class="pc-modal" role="dialog" aria-modal="true" aria-labelledby="pc-title">
+      <div class="pc-header">
+        <h2 class="pc-title" id="pc-title">Contact Us</h2>
+        <button class="pc-close" type="button" data-contact-pastel-close aria-label="Close">×</button>
+      </div>
+
+      <form class="pc-body" id="pc-form" novalidate>
+        <div class="pc-field">
+          <label for="pc-name">Your Name</label>
+          <input id="pc-name" name="name" type="text" placeholder="Enter your name" required />
+        </div>
+
+        <div class="pc-field">
+          <label for="pc-email">Your Email</label>
+          <input id="pc-email" name="email" type="email" placeholder="Enter your email" required />
+        </div>
+
+        <div class="pc-field">
+          <label for="pc-message">Message</label>
+          <textarea id="pc-message" name="message" rows="4" placeholder="Write your message…" required></textarea>
+        </div>
+
+        <div class="pc-actions">
+          <button class="main-btn pc-btn" type="submit">Send Message</button>
+        </div>
+        <p class="pc-muted" id="pc-feedback" hidden>Thanks! We’ve received your message.</p>
+      </form>
+    </div>
+  </div>
+  <script src="/frontend/js/toast.js"></script>
+  <script src="/frontend/js/navbar.js"></script>
+  <script src="/frontend/js/footer.js"></script>
+  <script src="/frontend/js/login.js"></script>
+  <script src="/frontend/js/pdf.js"></script>
+  <script src="/frontend/js/contactModal.js"></script>
+
+</body>
+
+</html>

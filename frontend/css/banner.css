@@ -1,0 +1,55 @@
+/*======================================
+               BANNER 
+=======================================*/
+.banner {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(1200px 600px at 10% 10%, #ffe3e8 0%, #fff0f0 40%, #fdf6f8 100%);
+  border-bottom: 2px solid #b18597;
+  margin-top: 30px;
+  height: 100%;
+}
+
+.banner-inner {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: center;
+  padding: clamp(3rem, 6vw, 8rem) 0 clamp(4rem, 7vw, 9rem);
+  height: 100%;
+}
+
+@media (min-width: 900px) {
+  .banner-inner {
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+}
+
+.banner-slogan {
+  display: inline-block;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: .8rem;
+  color: #a192a1;
+  background: #fff0f0;
+  border: 2px solid #b18597;
+  border-radius: .75rem;
+  padding: .4rem .7rem;
+  box-shadow: 0 0.45em 0 0 #ffe3e2;
+}
+
+.banner-headline {
+  margin: 1rem 0 .5rem;
+  font-size: clamp(2.25rem, 6vw, 4.75rem);
+  line-height: 1.1;
+  color: #8d7b8d;
+  letter-spacing: .3px;
+}
+
+.banner-subhead {
+  margin: 0 0 1.5rem;
+  font-size: clamp(1.05rem, 2.2vw, 1.5rem);
+  line-height: 1.6;
+  color: #9a879a;
+  max-width: 65ch;
+}

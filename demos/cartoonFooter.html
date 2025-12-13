@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pastel Footer</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #fdf6f8;
+      color: #8d7b8d;
+    }
+
+    /* Footer shell */
+    footer.footer {
+      background: linear-gradient(180deg, #fff0f0 0%, #ffe9ee 100%);
+      border-top: 2px solid #b18597;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 1.25rem 2rem;
+      display: grid;
+      gap: 2rem;
+    }
+
+    /* Decorative blobs */
+    .f-blob {
+      position: absolute;
+      inset: -60px auto auto -60px;
+      width: 260px;
+      height: 260px;
+      background: #f9c4d2;
+      filter: blur(30px);
+      opacity: .5;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .f-blob-2 {
+      position: absolute;
+      inset: auto -60px -60px auto;
+      width: 300px;
+      height: 300px;
+      background: #ffe3e8;
+      border: 2px solid #b18597;
+      border-radius: 38% 62% 55% 45% / 50% 40% 60% 50%;
+      transform: rotate(-6deg);
+      box-shadow: 0 .6em 0 0 #ffe3e2;
+      opacity: .35;
+      pointer-events: none;
+    }
+
+    /* Top row: brand + newsletter */
+    .footer-top {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 900px) {
+      .footer-top {
+        grid-template-columns: 1.1fr 0.9fr;
+        align-items: start;
+      }
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      text-decoration: none;
+      color: #8d7b8d;
+      font-weight: 800;
+      font-size: 1.15rem;
+    }
+
+    .brand-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: .9rem;
+      background: #f9c4d2;
+      border: 2px solid #b18597;
+      box-shadow: 0 0.5em 0 0 #ffe3e2;
+      display: grid;
+      place-items: center;
+      color: #a192a1;
+      font-size: 1rem;
+    }
+
+    .brand-copy {
+      margin-top: .35rem;
+      color: #9a879a;
+      max-width: 52ch;
+      line-height: 1.6;
+    }
+
+    /* Newsletter */
+    .news-card {
+      background: #fff0f0;
+      border: 2px solid #b18597;
+      border-radius: 1rem;
+      padding: 1rem;
+      box-shadow: 0 .8em 1.5em rgba(177, 133, 151, .16);
+    }
+
+    .news-title {
+      font-weight: 700;
+      color: #8d7b8d;
+      margin: 0 0 .5rem;
+    }
+
+    .news-sub {
+      margin: 0 0 1rem;
+      color: #9a879a;
+      line-height: 1.5;
+    }
+
+    .news-form {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: .75rem;
+    }
+
+    @media (max-width: 520px) {
+      .news-form {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap input[type="email"] {
+      width: 100%;
+      appearance: none;
+      background: #fff0f0;
+      color: #8d7b8d;
+      border: 2px solid #b18597;
+      border-radius: .75rem;
+      padding: 1rem 1rem;
+      font: inherit;
+      box-shadow: 0 .45em 0 0 #ffe3e2;
+    }
+
+    .input-wrap input::placeholder {
+      color: #b29ead;
+    }
+
+    .input-wrap input:focus-visible {
+      outline: 3px dashed #b18597;
+      outline-offset: 3px;
+    }
+
+    /* Link columns */
+    .cols {
+      display: grid;
+      gap: 2rem;
+    }
+
+    @media (min-width: 700px) {
+      .cols {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .col h4 {
+      margin: 0 0 .6rem;
+      color: #8d7b8d;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .col ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: .4rem;
+    }
+
+    .col a {
+      text-decoration: none;
+      color: #a192a1;
+      font-weight: 600;
+      padding: .5rem .6rem;
+      border-radius: .6rem;
+      border: 2px solid transparent;
+    }
+
+    .col a:hover {
+      background: #ffe9e9;
+      border-color: #b18597;
+    }
+
+    .col a:focus-visible {
+      outline: 3px dashed #b18597;
+      outline-offset: 3px;
+    }
+
+    /* Social row */
+    .social {
+      display: flex;
+      gap: .6rem;
+      flex-wrap: wrap;
+      margin-top: .5rem;
+    }
+
+    .social a {
+      display: inline-grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: .8rem;
+      background: #fff0f0;
+      border: 2px solid #b18597;
+      box-shadow: 0 .45em 0 0 #ffe3e2;
+      text-decoration: none;
+    }
+
+    .social svg {
+      width: 18px;
+      height: 18px;
+      fill: #a192a1;
+    }
+
+    /* Bottom bar */
+    .footer-bottom {
+      margin-top: .5rem;
+      border-top: 2px dashed #b18597;
+      padding-top: 1rem;
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      color: #9a879a;
+      font-size: .9rem;
+    }
+
+    .legal a {
+      color: #a192a1;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 2px dotted transparent;
+    }
+
+    .legal a:hover {
+      border-bottom-color: #b18597;
+    }
+
+    /* --- Your Button Styles (unchanged) --- */
+    button {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      outline: none;
+      border: 0;
+      vertical-align: middle;
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 15px;
+    }
+
+    button.learn-more {
+      font-weight: 600;
+      color: #a192a1;
+      text-transform: uppercase;
+      padding: 1.0em 1.4em;
+      background: #fff0f0;
+      border: 2px solid #b18597;
+      border-radius: 0.75em;
+      transform-style: preserve-3d;
+      transition: transform 150ms cubic-bezier(0, 0, 0.58, 1),
+        background 150ms cubic-bezier(0, 0, 0.58, 1);
+    }
+
+    button.learn-more::before {
+      position: absolute;
+      content: '';
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: #f9c4d2;
+      border-radius: inherit;
+      box-shadow: 0 0 0 2px #b18597, 0 0.625em 0 0 #ffe3e200;
+      transform: translate3d(0, 0.75em, -1em);
+      transition: transform 150ms cubic-bezier(0, 0, 0.58, 1),
+        box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+    }
+
+    button.learn-more:active {
+      background: #ffe9e9;
+      transform: translate(0em, 0.75em);
+    }
+
+    button.learn-more:active::before {
+      box-shadow: 0 0 0 2px #b18597, 0 0 #ffe3e2;
+      transform: translate3d(0, 0, -1em);
+    }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <footer class="footer" role="contentinfo">
+    <span class="f-blob" aria-hidden="true"></span>
+    <span class="f-blob-2" aria-hidden="true"></span>
+
+    <div class="footer-inner">
+
+      <!-- Top: brand + newsletter -->
+      <div class="footer-top">
+        <div>
+          <a class="brand" href="#" aria-label="Pastel Co home">
+            <span class="brand-badge">☼</span>
+            Pastel Co.
+          </a>
+          <p class="brand-copy">
+            Gentle interfaces with tactile depth. We craft soft, calming UI patterns
+            that still feel crisp and modern.
+          </p>
+
+          <div class="social" aria-label="Social media">
+            <a href="#" aria-label="Twitter">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M22 5.8c-.7.3-1.5.6-2.3.7.8-.5 1.4-1.2 1.7-2.1-.8.5-1.7.8-2.6 1-1.6-1.7-4.5-1.3-5.6.9-.5 1-.4 2.2.2 3.1-3.2-.2-6-1.7-7.9-4.1-1.1 1.9-.6 4.4 1.3 5.7-.6 0-1.2-.2-1.8-.5 0 2.1 1.5 3.9 3.6 4.3-.6.2-1.2.2-1.8.1.5 1.7 2.1 2.9 4 3-1.5 1.2-3.4 1.8-5.3 1.8H2c2 1.3 4.4 2 6.9 2 8.3 0 13-7 12.7-13.2.8-.6 1.5-1.3 2-2.2z" />
+              </svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-.9a1.1 1.1 0 1 0 0 2.3 1.1 1.1 0 0 0 0-2.3zM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z" />
+              </svg>
+            </a>
+            <a href="#" aria-label="Dribbble">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.9 6.4a8.2 8.2 0 0 1 1.4 4.6c-2-.4-3.9-.5-5.6-.3-.1-.3-.3-.7-.5-1.1 2.3-1 4-2.2 4.7-3.2zM12 3.8c1.8 0 3.5.6 4.9 1.5-.6.9-2.2 2.2-4.8 3.3-1-1.8-2.2-3.6-3.5-5 1-.5 2.1-.8 3.4-.8zM8 5a31.6 31.6 0 0 1 3.7 5.3c-3.2.9-6.8 1.1-8.4 1 0-.2 0-.4 0-.6C3.3 8 5.3 6.1 8 5zm-4 7.9c1.9 0 5-.2 8.1-1 0 0 .2.4.4.9-3.4 1.1-6.2 3.4-7.6 6.2a8.2 8.2 0 0 1-1-6.1zm8 7.3c-1.9 0-3.7-.6-5.1-1.6 1.2-2.5 3.7-4.5 6.9-5.6.8 2.1 1.3 4.7 1.5 7.2-1 .3-2 .5-3.3.5zm5-1.9c-.2-2.3-.7-4.8-1.5-6.9 1.5-.1 3.1 0 4.8.3a8.2 8.2 0 0 1-3.3 6.6z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="news-card" aria-labelledby="newsletter-title">
+          <h3 id="newsletter-title" class="news-title">Stay in the loop</h3>
+          <p class="news-sub">Monthly updates on new components, tips, and pastel goodies.</p>
+          <form class="news-form" action="#" method="post">
+            <div class="input-wrap">
+              <label class="sr-only" for="email">Email address</label>
+              <input id="email" name="email" type="email" placeholder="you@domain.com" required />
+            </div>
+            <button class="learn-more" type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Link columns -->
+      <div class="cols" aria-label="Footer navigation">
+        <div class="col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#">Overview</a></li>
+            <li><a href="#">Components</a></li>
+            <li><a href="#">Themes</a></li>
+            <li><a href="#">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Docs</a></li>
+            <li><a href="#">Examples</a></li>
+            <li><a href="#">Figma Kit</a></li>
+            <li><a href="#">Tutorials</a></li>
+          </ul>
+        </div>
+        <div class="col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Press</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="footer-bottom">
+        <div>© <span id="year"></span> Pastel Co. All rights reserved.</div>
+        <div class="legal">
+          <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Cookies</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    // current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+
+</html>

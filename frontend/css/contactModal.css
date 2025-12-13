@@ -1,0 +1,103 @@
+/* ======= Pastel Modals (scoped) ======= */
+#contact-pastel.pc-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(141, 123, 141, 0.25);
+  backdrop-filter: blur(2px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 999;
+  /* adjust if needed */
+}
+
+#contact-pastel.pc-overlay.is-open {
+  display: flex;
+}
+
+#contact-pastel .pc-modal {
+  width: min(520px, 100%);
+  background: #fff0f0;
+  border: 2px solid #b18597;
+  border-radius: 1rem;
+  box-shadow: 0 1.1em 2em rgba(177, 133, 151, .22);
+  padding: 1.25rem;
+  color: #8d7b8d;
+}
+
+#contact-pastel .pc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin-bottom: .75rem;
+}
+
+#contact-pastel .pc-title {
+  font-weight: 800;
+  letter-spacing: .3px;
+  font-size: 1.25rem;
+}
+
+#contact-pastel .pc-close {
+  border: 2px solid #b18597;
+  background: #fff0f0;
+  border-radius: .6rem;
+  padding: .4rem .6rem;
+  cursor: pointer;
+  box-shadow: 0 .45em 0 0 #ffe3e2;
+  color: #a192a1;
+  font-weight: 700;
+}
+
+#contact-pastel .pc-body {
+  display: grid;
+  gap: .85rem;
+}
+
+#contact-pastel .pc-field {
+  display: grid;
+  gap: .35rem;
+}
+
+#contact-pastel .pc-field label {
+  font-size: .9rem;
+  font-weight: 600;
+  color: #a192a1;
+}
+
+#contact-pastel .pc-field input,
+#contact-pastel .pc-field textarea {
+  appearance: none;
+  width: 100%;
+  background: #fff0f0;
+  color: #8d7b8d;
+  border: 2px solid #b18597;
+  border-radius: .75rem;
+  padding: .85rem 1rem;
+  font: inherit;
+  box-shadow: 0 .45em 0 0 #ffe3e2;
+  resize: vertical;
+}
+
+#contact-pastel .pc-field ::placeholder {
+  color: #b29ead;
+}
+
+#contact-pastel .pc-actions {
+  display: grid;
+  gap: .65rem;
+  margin-top: .25rem;
+}
+
+
+
+#contact-pastel .pc-btn:hover {
+  background: #ffebeb;
+}
+
+#contact-pastel .pc-muted {
+  font-size: .9rem;
+  color: #9a879a;
+}
