@@ -15,10 +15,69 @@ Full-stack demo in development for a custom bakery: multi-page static frontend p
 - Auth/security: scrypt password hashing, HMAC-signed JWTs.
 
 ## Project Structure
-- `frontend/` — static site (`html/`, `css/`, `js/`, `assets/`).
-- `backend/` — Express app, routes, mailer, smoke test, package manifests.
-- `demos/` — stand-alone HTML prototypes not wired to the backend.
+```text
 
+Fullstack-Bakery/
+ ├─ backend/                         # Express + PostgreSQL API
+ │  ├─ src/
+ │  │  ├─ routes/
+ │  │  │  ├─ auth.js                 # Register/login/send-code/reset
+ │  │  │  ├─ products.js             # Products listing, optional category filter
+ │  │  │  └─ cart.js                 # In-memory cart add/update/remove
+ │  │  ├─ mailer.js                  # Nodemailer transport, HTML templates, token helpers
+ │  │  └─ index.js                   # Server entry, mounts routes, health check
+ │  ├─ smoke.js                      # End-to-end smoke test script
+ │  ├─ package.json                  # Backend dependencies/scripts
+ │  ├─ package-lock.json             # Backend lock file
+ │  ├─ .env.example                  # Sample environment (copy to .env)
+ │  ├─ .env                          # Local environment (not committed)
+ │  └─ .gitignore                    # Backend ignores
+ │
+ ├─ frontend/                        # Static site
+ │  ├─ html/
+ │  │  ├─ index.html                 # Landing/login/register/reset
+ │  │  ├─ order.html                 # Products grid, cart/profile modals, welcome prompt
+ │  │  ├─ school.html                # Baking school page
+ │  │  └─ books.html                 # Baking books page
+ │  ├─ css/
+ │  │  ├─ about.css
+ │  │  ├─ banner.css
+ │  │  ├─ buttons.css
+ │  │  ├─ cards.css
+ │  │  ├─ cartModal.css
+ │  │  ├─ contactModal.css
+ │  │  ├─ decorations.css
+ │  │  ├─ faq.css
+ │  │  ├─ footer.css
+ │  │  ├─ images.css
+ │  │  ├─ login.css
+ │  │  ├─ navbar.css
+ │  │  ├─ paymentModal.css
+ │  │  ├─ productsSection.css
+ │  │  ├─ profileModal.css
+ │  │  ├─ styles.css
+ │  │  └─ welcomeModal.css
+ │  ├─ js/
+ │  │  ├─ navbar.js                  # Navigation interactions
+ │  │  ├─ footer.js                  # Footer behaviors
+ │  │  ├─ login.js                   # Login/register/reset UI wiring
+ │  │  ├─ cartModal.js               # Cart modal interactions and totals
+ │  │  ├─ profileModal.js            # Profile modal (localStorage-backed)
+ │  │  ├─ welcomeModal.js            # Welcome prompt (address/email capture)
+ │  │  ├─ contactModal.js            # Contact overlay handling
+ │  │  ├─ toast.js                   # Toast notifications
+ │  │  ├─ pdf.js                     # Catalog download helper
+ │  │  └─ courses.js                 # Course page behaviors
+ │  ├─ assets/                       # Images and PDF catalog
+ │  └─ node_modules/                 # Frontend deps (not stored; created by npm install)
+ │
+ ├─ demos/                           # Stand-alone HTML prototypes
+ ├─ README.md                        # Project guide
+ ├─ .gitignore                       # Repo-level ignores
+ └─ (node_modules/)                  # Root-level deps if ever used (not stored; created by npm install)
+
+
+```
 ## Prerequisites
 - Node.js 18+
 - PostgreSQL 14+
