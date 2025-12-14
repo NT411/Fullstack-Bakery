@@ -1,6 +1,8 @@
 ## TheSweetBaker Co.
 
 Full-stack demo in development for a custom bakery: multi-page static frontend plus an Express + PostgreSQL backend for products, cart, authentication, and email-driven flows.
+
+![Main Page](./main_page_0.png)
 --
 ## Features
 - Multi-page marketing site (home/order/school/books) with modals for login, register, profile, cart, contact, and welcome prompt.
