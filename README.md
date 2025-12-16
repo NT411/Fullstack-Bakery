@@ -183,7 +183,8 @@ Serve statically (example):
 ```bash
 # from repo root
 python -m http.server 5500
-# then open http://localhost:5500/frontend/html/index.html
+# Then open http://localhost:5500/frontend/html/index.html
+# Or just run live server with VS code 
 ```
 Pages:
 - `index.html` — landing with login/register/reset and contact overlay.
