@@ -14,6 +14,8 @@ Full-stack demo in development for a custom bakery: multi-page static frontend p
 - Express API backed by PostgreSQL; passwords hashed with scrypt; tokens signed with `AUTH_JWT_SECRET`.
 - Smoke script to exercise health, products, register/login, and password reset.
 
+# The password reset flow is partially implemented. The reset email is sent with a time-limited token, but the frontend page to complete the reset is still in development.
+
 ## Stack
 - Frontend: HTML, CSS, vanilla JS.
 - Backend: Node.js 18, Express 5, PostgreSQL, Nodemailer, dotenv, cors.
