@@ -77,6 +77,7 @@ Fullstack-Bakery/
  │  │  └─ courses.js                 # Course page behaviors
  │  ├─ assets/                       # Images and PDF catalog
  │  └─ node_modules/                 # Frontend deps (not stored; created by npm install)
+ │
  ├─ README.md                        # Project guide
  ├─ .gitignore                       # Repo-level ignores
  └─ (node_modules/)                  # Root-level deps if ever used (not stored; created by npm install)
