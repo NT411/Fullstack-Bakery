@@ -9,7 +9,7 @@ Full-stack demo in development for a custom bakery: multi-page static frontend p
 --
 ## Features
 - Multi-page marketing site (home/order/school/books) with modals for login, register, profile, cart, contact, and welcome prompt.
-- Product catalog with filters, add-to-cart, and profile data stored in localStorage for smoother UX.
+- Product catalog with filters, add-to-cart, and profile data stored in localStorage.
 - Auth flows with email verification codes, password resets, and welcome emails via Nodemailer.
 - Express API backed by PostgreSQL; passwords hashed with scrypt; tokens signed with `AUTH_JWT_SECRET`.
 - Smoke script to exercise health, products, register/login, and password reset.
